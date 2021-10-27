@@ -6,6 +6,7 @@ from .serializers import UserSerializer, RegisterSerializer
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.decorators import api_view
 from knox.views import LoginView as KnoxLoginView
 
 # Register API
@@ -30,3 +31,6 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+@api_view(['POST'])
+def 
