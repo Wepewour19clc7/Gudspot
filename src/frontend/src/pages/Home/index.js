@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Main = () => {
+const Home = () => {
   return (
     <main className='flex-1 relative overflow-y-auto focus:outline-none'>
       <div className='py-6'>
@@ -17,4 +17,4 @@ const Main = () => {
   )
 }
 
-export default Main
+export default Home

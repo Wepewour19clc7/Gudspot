@@ -3,6 +3,7 @@ import SearchBar from '../SearchBar'
 import { BellIcon, MenuAlt2Icon } from '@heroicons/react/outline'
 import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
+import { Link } from 'react-router-dom'
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -63,12 +64,12 @@ const HeaderApp = () => {
                 {userNavigation.map((item) => (
                   <Menu.Item key={item.name}>
                     {({ active }) => (
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.href}
                         className={clsx(active ? 'bg-gray-100' : '', 'block py-2 px-4 text-sm text-gray-700')}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                 ))}
