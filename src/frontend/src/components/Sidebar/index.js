@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { HomeIcon, XIcon } from '@heroicons/react/outline'
+import { HomeIcon, UserGroupIcon, XIcon } from '@heroicons/react/outline'
 import clsx from 'clsx'
 import { BiStoreAlt } from 'react-icons/all'
 import { Link } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 const navigation = [
   { name: 'Home', href: '/', icon: HomeIcon, current: true },
   { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false },
+  { name: 'About App', href: '/about-us', icon: UserGroupIcon, current: false },
 ]
 
 const Sidebar = () => {
