@@ -2,6 +2,7 @@ import React from 'react'
 import Main from '../pages/Home'
 import Profile from '../pages/Profile'
 import StoreOwner from '../pages/StoreOwner'
+import AboutUs from '../pages/AboutUs'
 
 const ViewRoutes = [
   {
@@ -13,6 +14,11 @@ const ViewRoutes = [
     path: '/store',
     exact: true,
     component: () => <StoreOwner />,
+  },
+  {
+    path: '/about-us',
+    exact: true,
+    component: () => <AboutUs />,
   }
 ]
 
