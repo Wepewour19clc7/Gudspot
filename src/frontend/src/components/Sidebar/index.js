@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const navigation = [
   { name: 'Home', href: '/', icon: HomeIcon, current: true },
   { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false },
-  { name: 'About App', href: '/about-us', icon: UserGroupIcon, current: false },
+  { name: 'About Us', href: '/about-us', icon: UserGroupIcon, current: false },
 ]
 
 const Sidebar = () => {
