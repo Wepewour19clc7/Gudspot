@@ -10,6 +10,8 @@ from rest_framework.decorators import api_view
 from knox.views import LoginView as KnoxLoginView
 
 # Register API
+
+
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -17,10 +19,11 @@ class RegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        AuthToken.objects.create(user)
         return Response({
-        "user": UserSerializer(user, context=self.get_serializer_context()).data,
-        "token": AuthToken.objects.create(user)[1]
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
         })
+
 
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
@@ -30,4 +33,7 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        # super(LoginAPI, self).post(request, format=None)
+        return Response({
+            "Login status": "Success"
+        })
