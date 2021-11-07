@@ -62,7 +62,7 @@ const Sidebar = () => {
                 <Link to={"/"}>
                   <img
                     className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg'
+                    src="/assets/Logo.svg"
                     alt='Workflow'
                   />
                 </Link>
@@ -107,7 +107,7 @@ const Sidebar = () => {
               <Link to={"/"}>
               <img
                 className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg'
+                src="/assets/Logo.svg"
                 alt='Workflow'
               />
               </Link>
