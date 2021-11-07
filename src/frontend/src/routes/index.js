@@ -3,6 +3,8 @@ import Main from '../pages/Home'
 import Profile from '../pages/Profile'
 import StoreOwner from '../pages/StoreOwner'
 import AboutUs from '../pages/AboutUs'
+import LogIn from '../pages/LogIn'
+import Register from '../pages/Register'
 
 const ViewRoutes = [
   {
@@ -19,6 +21,16 @@ const ViewRoutes = [
     path: '/about-us',
     exact: true,
     component: () => <AboutUs />,
+  },
+  {
+    path: '/login',
+    exact: true,
+    component: () => <LogIn />,
+  },
+  {
+    path: '/register',
+    exact: true,
+    component: () => <Register />,
   }
 ]
 

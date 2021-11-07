@@ -1,5 +1,6 @@
 import React from 'react'
 import HeaderApp from '../../components/HeaderApp'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
   return (
@@ -46,7 +47,7 @@ const Register = () => {
                         </div>
                     </form>
                     <div class="text-center text-gray-500 text-base">
-                        <span>Already have an account?</span>&nbsp;<a href="#" class="underline hover:underline hover:text-blue-800">Login</a>
+                        <span>Already have an account?</span>&nbsp;<Link to="/login" class="underline hover:underline hover:text-blue-800">Login</Link>
                     </div>
                 </div>
             </div>

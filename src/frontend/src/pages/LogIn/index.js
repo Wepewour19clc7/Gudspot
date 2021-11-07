@@ -1,5 +1,6 @@
 import React from 'react'
 import HeaderApp from '../../components/HeaderApp'
+import { Link } from 'react-router-dom'
 
 const LogIn = () => {
   return (
@@ -35,7 +36,7 @@ const LogIn = () => {
                         </div>
                     </form>
                     <div class="text-center text-gray-500 text-base">
-                        <span>New to site?</span>&nbsp;<a href="#" class="underline hover:underline hover:text-blue-800">Register</a>
+                        <span>New to site?</span>&nbsp;<Link to="/register" class="underline hover:underline hover:text-blue-800">Register</Link>
                     </div>
                 </div>
             </div>
