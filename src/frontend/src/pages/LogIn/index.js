@@ -1,11 +1,9 @@
 import React from 'react'
-import HeaderApp from '../../components/HeaderApp'
 import { Link } from 'react-router-dom'
 
 const LogIn = () => {
   return (
     <main className='overflow-y-auto w-full h-full focus:outline-none px-5'>
-      <HeaderApp/>
       <div className='py-6'>
         <div className='px-4 sm:px-6 md:px-0'>
           <h1 className='text-2xl font-semibold text-gray-900'>Sign In</h1>
