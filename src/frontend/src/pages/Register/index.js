@@ -1,5 +1,4 @@
 import React from 'react'
-import HeaderApp from '../../components/HeaderApp'
 import { Link } from 'react-router-dom'
 
 const Register = () => {
@@ -36,6 +35,15 @@ const Register = () => {
                                 Repeat password
                             </label>
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password2" type="password" placeholder="********" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-gray-700 text-base font-bold mb-2" for="password">
+                                User type
+                            </label>
+                            <select class="form-select pl-3 pr-10 py-3 rounded">
+                                <option value="customer">Customer</option>
+                                <option value="owner">Business owner</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <input class="shadow appearance-none rounded text-blue-600 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="userterm" type="checkbox" required/> I agree to the <a href="#" class="text-blue-600 font-bold">Terms of User</a>
