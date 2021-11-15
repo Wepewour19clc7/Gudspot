@@ -1,5 +1,5 @@
 # Login session
-## Registering
+## Register
 * API link: ```<hostname>/api/register/``` 
 * Method: ```POST```
 * Body:
@@ -13,12 +13,10 @@
 * Response:
 ```
 {
-    "user": {
-        "id": <id>,
-        "username": <username>,
-        "email": <email>
-    },
-    "token": <token>
+    "status": "success",
+    "code": 200,
+    "message": "Account created",
+    "data": []
 }
 ```
 <br>
@@ -41,10 +39,32 @@
 }
 ```
 ## Logout
-* API link: ```<hostname>/api/logout```
+* API link: ```<hostname>/api/logout/```
 * Method: ```POST```
 * Header: 
 ```
 "Authorization": Token <token>
 ```
 * Response: None
+
+## Login
+* API link: ```<hostname>/api/change-password/```
+* Method: ```PUT```
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{
+    old_password: <old password>,
+    new_password: <new password>
+}
+```
+* Response:
+```
+{
+    "status": "success",
+    "code": 200,
+    "message": "Password updated successfully",
+    "data": []
+}
+```

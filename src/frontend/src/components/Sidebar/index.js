@@ -1,15 +1,14 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { CalendarIcon, ChartBarIcon, HomeIcon, InboxIcon, XIcon } from '@heroicons/react/outline'
+import { HomeIcon, UserGroupIcon, XIcon } from '@heroicons/react/outline'
 import clsx from 'clsx'
 import { BiStoreAlt } from 'react-icons/all'
+import { Link } from 'react-router-dom'
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'My Store', href: '#', icon: BiStoreAlt, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Home', href: '/', icon: HomeIcon, current: true },
+  { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false },
+  { name: 'About Us', href: '/about-us', icon: UserGroupIcon, current: false },
 ]
 
 const Sidebar = () => {
@@ -60,18 +59,20 @@ const Sidebar = () => {
                 </div>
               </Transition.Child>
               <div className='flex-shrink-0 px-4 flex items-center'>
-                <img
-                  className='h-8 w-auto'
-                  src='https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg'
-                  alt='Workflow'
-                />
+                <Link to={"/"}>
+                  <img
+                    className='h-8 w-auto'
+                    src="/assets/Logo.svg"
+                    alt='Workflow'
+                  />
+                </Link>
               </div>
               <div className='mt-5 flex-1 h-0 overflow-y-auto'>
                 <nav className='px-2 space-y-1'>
                   {navigation.map((item) => (
-                    <a
+                    <Link to={item.href}>
+                    <div
                       key={item.name}
-                      href={item.href}
                       className={clsx(
                         item.current
                           ? 'bg-gray-100 text-gray-900'
@@ -87,7 +88,8 @@ const Sidebar = () => {
                         aria-hidden='true'
                       />
                       {item.name}
-                    </a>
+                    </div>
+                    </Link>
                   ))}
                 </nav>
               </div>
@@ -102,18 +104,20 @@ const Sidebar = () => {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className='border-r border-gray-200 pt-5 pb-4 flex flex-col flex-grow overflow-y-auto'>
             <div className='flex-shrink-0 px-4 flex items-center'>
+              <Link to={"/"}>
               <img
                 className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg'
+                src="/assets/Logo.svg"
                 alt='Workflow'
               />
+              </Link>
             </div>
             <div className='flex-grow mt-5 flex flex-col'>
               <nav className='flex-1 bg-white px-2 space-y-1'>
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.href}
                     className={clsx(
                       item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                       'group rounded-md py-2 px-2 flex items-center text-sm font-medium',
@@ -127,7 +131,7 @@ const Sidebar = () => {
                       aria-hidden='true'
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </nav>
             </div>
