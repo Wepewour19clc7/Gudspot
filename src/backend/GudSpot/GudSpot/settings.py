@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'GudSpot', 
-        'USER': 'koanguyn',
-        'PASSWORD': '09052001',
+        'USER': 'django',
+        'PASSWORD': 'Password123#@!',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -137,3 +137,5 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ]
 }
+
+APPEND_SLASH=False
