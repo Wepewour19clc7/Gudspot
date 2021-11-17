@@ -11,12 +11,6 @@ from django.shortcuts import render
 from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
 
 
-<<<<<<< HEAD
-# Register API
-
-
-=======
->>>>>>> main
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -26,14 +20,10 @@ class RegisterAPI(generics.GenericAPIView):
         user = serializer.save()
         AuthToken.objects.create(user)
         return Response({
-<<<<<<< HEAD
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
-=======
             "status": 'success',
             'code': status.HTTP_200_OK,
             'message': 'Account created',
             'data': []
->>>>>>> main
         })
 
 
@@ -45,12 +35,6 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-<<<<<<< HEAD
-        # super(LoginAPI, self).post(request, format=None)
-        return Response({
-            "Login status": "Success"
-        })
-=======
         return super(LoginAPI, self).post(request, format=None)
 
 
@@ -120,4 +104,3 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
->>>>>>> main
