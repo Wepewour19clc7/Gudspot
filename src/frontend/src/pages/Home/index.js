@@ -1,6 +1,7 @@
 import React from 'react'
 import RandomStores from '../../containers/RandomStores'
 import HeaderApp from '../../components/HeaderApp'
+import FooterApp from '../../components/FooterApp'
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <FooterApp/>
     </main>
   )
 }
