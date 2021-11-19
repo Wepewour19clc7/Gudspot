@@ -46,7 +46,7 @@ const Register = () => {
                             </select>
                         </div>
                         <div class="mb-3">
-                            <input class="shadow appearance-none rounded text-blue-600 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="userterm" type="checkbox" required/> I agree to the <a href="#" class="text-blue-600 font-bold">Terms of User</a>
+                            <input class="shadow appearance-none rounded text-blue-600 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="userterm" type="checkbox" required/> I agree to the <Link to="/terms_of_user" target='_blank' class="text-blue-600 font-bold">Terms of User</Link>
                         </div>
                         <div class="flex items-center justify-evenly">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 w-4/5 rounded-3xl focus:outline-none focus:shadow-outline" type="button">
