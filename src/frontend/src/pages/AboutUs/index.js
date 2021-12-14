@@ -16,7 +16,7 @@ const AboutUs = () => {
             </div>
           </div>
           <div
-            className='bg-indigo-700 rounded-md lg:w-96 w-80 flex flex-col items-center justify-center md:py-0 py-12'>
+            className='bg-indigo-700 rounded-md lg:w-96 w-80 flex flex-col items-center justify-center md:py-0 py-12 order-first xl:order-none'>
             <h3 className='text-2xl font-semibold leading-6 text-center text-white'>About Team</h3>
             <p className='lg:w-80 lg:px-0 px-4 text-base leading-6 text-center text-white mt-6'>Praesent quis commodo
               erat, id iaculis mauris. Nullam feugiat efficitur urna, ac scelerisque purus vestibulum at. Suspendisse
