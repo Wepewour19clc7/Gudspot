@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_framework',
+    'corsheaders',
     'knox',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -78,7 +81,7 @@ WSGI_APPLICATION = 'GudSpot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'GudSpot', 
+        'NAME':'GudSpot',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',
@@ -105,6 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000',)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

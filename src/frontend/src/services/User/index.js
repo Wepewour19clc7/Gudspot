@@ -1,18 +1,18 @@
 import BaseRoute from '../BaseRoute'
 
 class UserService extends BaseRoute {
-  login (email, password) {
-    return this.post('/login', {
-      email,
+  async login (username, password) {
+    return await this.post('login/', {
+      username,
       password,
     })
   }
 
-  register (email, password, username) {
-    return this.post('/register', {
+  async register (email, password, username) {
+    return await this.post('register/', {
       email,
       password,
-      username
+      username,
     })
   }
 }
