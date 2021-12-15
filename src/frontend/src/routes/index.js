@@ -38,10 +38,6 @@ const ViewRoutes = [
     path:'/terms_of_user',
     exact: true,
     component: () => <Terms />,
-  },{
-    path:'*',
-    exact: true,
-    component: () => <Not_Found />,
   }
 ]
 
