@@ -4,6 +4,7 @@ class Config {
   }
 
   getBaseUrl (): any {
+    console.log(process.env.REACT_APP_BASE_URL)
     return this.BASE_URL
   }
 }

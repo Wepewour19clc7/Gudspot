@@ -6,7 +6,6 @@ import AboutUs from '../pages/AboutUs'
 import LogIn from '../pages/LogIn'
 import Register from '../pages/Register'
 import Terms from '../pages/Terms'
-import Not_Found from '../pages/Not_Found'
 
 const ViewRoutes = [
   {

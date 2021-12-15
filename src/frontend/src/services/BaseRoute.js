@@ -6,9 +6,10 @@ class BaseRoute {
     this.config = new Config()
 
     if (!this.config.getBaseUrl()) {
-      throw new Error('Base URL is not defined')
+      this.baseUrl = 'http://localhost:8000' + '/api/'
+      // throw new Error('Base URL is not defined')
     } else {
-      this.baseUrl = this.config.getBaseUrl() + '/api/'
+      this.baseUrl = this.config.getBaseUrl() + 'api/'
     }
   }
 
@@ -16,8 +17,20 @@ class BaseRoute {
     return axios.get(this.baseUrl + endpoint, { params })
   }
 
-  post (endpoint, data) {
-    return axios.post(this.baseUrl + endpoint, data)
+  async post (endpoint, data) {
+    return await axios.post(this.baseUrl + endpoint, data).then(response => {
+      return {
+        data: response.data,
+        status: response.status,
+        success: response.status === 200
+      }
+    }).catch(error => {
+      return {
+        error: error,
+        status: error.response.status,
+        success: false
+      }
+    })
   }
 
   put (endpoint, data) {
