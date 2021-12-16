@@ -1,6 +1,7 @@
 name: django
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=1_gnu
@@ -38,5 +39,7 @@ dependencies:
   - pip:
     - cffi==1.15.0
     - cryptography==35.0.0
+    - django-cors-headers==3.10.1
     - django-rest-knox==4.1.0
     - pycparser==2.20
+prefix: /home/koanguyn/miniconda3/envs/django
