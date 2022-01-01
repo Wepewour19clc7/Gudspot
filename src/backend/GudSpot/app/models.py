@@ -33,7 +33,7 @@ class Store(models.Model):
 class Blog(models.Model):
     content = models.TextField()
     img_url = models.URLField()
-    posted_date = models.DateTimeField()
+    posted_date = models.DateTimeField(auto_now_add=True)
 
 
 # Review model

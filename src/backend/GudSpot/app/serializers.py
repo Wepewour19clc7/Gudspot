@@ -58,3 +58,12 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
         return Review.objects.create(**validated_data)
+    
+#Blog Serializer
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = ('id','content','posted_date')
+
+    def create(self,validated_data):
+        return Blog.objects.create(**validated_data)
