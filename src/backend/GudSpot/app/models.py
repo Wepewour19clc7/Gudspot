@@ -25,7 +25,7 @@ class Store(models.Model):
     owner_id = models.ForeignKey(User, on_delete=CASCADE)
     store_name = models.CharField(max_length=100)
     store_address = models.CharField(max_length=200)
-    create_date = models.DateTimeField()
+    create_date = models.DateTimeField(auto_now_add=True)
     img_url = models.URLField()
 
 
@@ -35,7 +35,7 @@ class Blog(models.Model):
     store_id = models.OneToOneField(Store, on_delete=CASCADE)
     content = models.TextField()
     img_url = models.URLField()
-    posted_date = models.DateTimeField()
+    posted_date = models.DateTimeField(auto_now_add=True)
 
 
 # Review model
