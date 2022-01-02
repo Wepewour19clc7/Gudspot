@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, serializers, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -8,7 +8,8 @@ from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
+from .serializers import *
+from .models import *
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -23,7 +24,6 @@ class RegisterAPI(generics.GenericAPIView):
             "status": 'success',
             'code': status.HTTP_200_OK,
             'message': 'Account created',
-            'data': []
         })
 
 
@@ -104,3 +104,10 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WriteBlog(generics.GenericAPIView):
+    serializer_class = BlogSerializer
+    model = Blog
+    def update(self, request, *args, **kwargs):
+        pass
