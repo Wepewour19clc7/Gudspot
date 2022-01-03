@@ -85,3 +85,4 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
         return Follow.objects.create(**validated_data)
+

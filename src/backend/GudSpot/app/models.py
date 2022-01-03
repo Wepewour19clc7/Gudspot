@@ -13,8 +13,7 @@ class user_type(models.Model):
     class USER_TYPES(models.IntegerChoices):
         ADMIN = 0
         OWNER = 1
-        R_USERS = 2
-        USERS = 3
+        USERS = 2
 
     user_id = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     user_type = models.IntegerField(choices=USER_TYPES.choices)
