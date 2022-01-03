@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, serializers, status
+from rest_framework import response
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -8,7 +9,8 @@ from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
+from .serializers import *
+from .models import *
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -19,11 +21,11 @@ class RegisterAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         AuthToken.objects.create(user)
+        user_type(user_type=request.data['type'],user_id=user).save()
         return Response({
             "status": 'success',
             'code': status.HTTP_200_OK,
             'message': 'Account created',
-            'data': []
         })
 
 
@@ -35,7 +37,11 @@ class LoginAPI(KnoxLoginView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        response = super(LoginAPI, self).post(request, format=None)
+        response.data['id'] = str(user.id)
+        response.data['name'] = str(user.username)
+        response.data['type'] = str(user_type.objects.get(user_id=user.id).user_type)
+        return response
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -104,3 +110,23 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WriteBlog(generics.GenericAPIView):
+    serializer_class = BlogSerializer
+    model = Blog
+    permission_classes = (IsAuthenticated,)
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+        else: 
+            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateStore(generics.GenericAPIView):
+    serializers_class = StoreSerializer
+    model = Store
+    permissions_classes = (IsAuthenticated)
+    def update(self, request, *args, **kwargs):
+        pass
