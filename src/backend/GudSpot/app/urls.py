@@ -1,7 +1,7 @@
 from .views import RegisterAPI, LoginAPI
 from django.urls import path
 from knox import views as knox_views
-from .views import ChangePasswordView
+from .views import ChangePasswordView, CreateStoreView
 
 urlpatterns = [
     path('api/register', RegisterAPI.as_view(), name='register'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/logoutall', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/change-password', ChangePasswordView.as_view(),
          name='change-password'),
+    path('api/create-store', CreateStoreView.as_view(),name='createstore'),
 ]

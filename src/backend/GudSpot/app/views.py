@@ -69,7 +69,6 @@ class ChangePasswordView(generics.UpdateAPIView):
                 'status': 'success',
                 'code': status.HTTP_200_OK,
                 'message': 'Password updated successfully',
-                'data': []
             }
 
             return Response(response)
@@ -124,9 +123,14 @@ class WriteBlog(generics.GenericAPIView):
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
-class CreateStore(generics.GenericAPIView):
-    serializers_class = StoreSerializer
+class CreateStoreView(generics.GenericAPIView):
+    serializer_class = StoreSerializer
     model = Store
     permissions_classes = (IsAuthenticated)
-    def update(self, request, *args, **kwargs):
-        pass
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+        else: 
+            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
