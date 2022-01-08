@@ -25,7 +25,7 @@ class Store(models.Model):
     store_name = models.CharField(max_length=100)
     store_address = models.CharField(max_length=200)
     create_date = models.DateTimeField(auto_now_add=True)
-    img_url = models.URLField()
+    img_url = models.JSONField()
 
 
 # Blog model

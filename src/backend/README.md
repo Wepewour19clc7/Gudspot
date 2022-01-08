@@ -8,6 +8,7 @@
     "username": <username>,
     "email": <email>,
     "password": <password>
+    "type": <usertype> (ADMIN = 0,OWNER = 1, USERS = 2)
 }
 ```
 * Response:
@@ -16,7 +17,6 @@
     "status": "success",
     "code": 200,
     "message": "Account created",
-    "data": []
 }
 ```
 <br>
@@ -35,7 +35,10 @@
 ```
 {
     "expiry": <date and time>
-    "token": <token>
+    "token": <token>,
+    "id": <userid>,
+    "name": <username>,
+    "type": <usertype>
 }
 ```
 ## Logout
@@ -47,7 +50,7 @@
 ```
 * Response: None
 
-## Login
+## Change password
 * API link: ```<hostname>/api/change-password/```
 * Method: ```PUT```
 * Header:
@@ -65,6 +68,5 @@
     "status": "success",
     "code": 200,
     "message": "Password updated successfully",
-    "data": []
 }
 ```

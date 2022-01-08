@@ -120,6 +120,7 @@ class WriteBlog(generics.GenericAPIView):
         
         if serializer.is_valid():
             serializer.save()
+            return Response({"status": ["OK"]}, status=status.HTTP_200_OK)
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -132,5 +133,6 @@ class CreateStoreView(generics.GenericAPIView):
         
         if serializer.is_valid():
             serializer.save()
+            return Response({"status": ["OK"]}, status=status.HTTP_200_OK)
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
