@@ -33,7 +33,7 @@ class Blog(models.Model):
     user_id = models.OneToOneField(User, on_delete=CASCADE)
     store_id = models.OneToOneField(Store, on_delete=CASCADE)
     content = models.TextField()
-    img_url = models.URLField()
+    img_url = models.JSONField()
     posted_date = models.DateTimeField(auto_now_add=True)
 
 
