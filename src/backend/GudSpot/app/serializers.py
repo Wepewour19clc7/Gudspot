@@ -85,3 +85,9 @@ class FollowSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         return Follow.objects.create(**validated_data)
 
+class GetBlogSerializer(serializers.Serializer):
+    class Meta:
+        model = Blog
+        fields = ('store_id')
+    def create(self,validated_data):
+        return Blog.objects.create(**validated_data)

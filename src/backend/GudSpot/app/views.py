@@ -21,7 +21,7 @@ class RegisterAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         AuthToken.objects.create(user)
-        user_type(user_type=request.data['type'],user_id=user).save()
+        user_information(user_type=request.data['type'],user_id=user).save()
         return Response({
             "status": 'success',
             'code': status.HTTP_200_OK,
@@ -40,7 +40,10 @@ class LoginAPI(KnoxLoginView):
         response = super(LoginAPI, self).post(request, format=None)
         response.data['id'] = str(user.id)
         response.data['name'] = str(user.username)
-        response.data['type'] = str(user_type.objects.get(user_id=user.id).user_type)
+        #############
+        # QUERY HERE#
+        #############
+        response.data['type'] = str(user_information.objects.get(user_id=user.id).user_type)
         return response
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -102,3 +105,7 @@ class CreateStoreView(generics.GenericAPIView):
             return Response({"status": ["OK"]}, status=status.HTTP_200_OK)
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetBlog(generics.GenericAPIView):
+    serializer_class = BlogSerializer
+    model = Blog
