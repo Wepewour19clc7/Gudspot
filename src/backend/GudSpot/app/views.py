@@ -113,7 +113,6 @@ class CreateStoreView(generics.GenericAPIView):
 class GetBlog(generics.GenericAPIView):
     serializer_class = BlogSerializer
     model = Blog
-<<<<<<< HEAD
     def get(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         obj = serializer.save()
@@ -126,12 +125,14 @@ class GetBlog(generics.GenericAPIView):
 
 class ChangeAvatarView(generics.GenericAPIView):
     pass
-=======
 
-
-#Search Store API
-class StoreView(generics.ListAPIView):
+#Search store 
+class StoreList(generics.ListCreateAPIView):
     queryset = Store.objects.all()
-    serializers_class = StoreSerializer
-    filter_backends = (DjangoFilterBackend,SearchFilter)
->>>>>>> 5668e1728f5122c9182f1a1fee6ddcbb2b3f064e
+    serializer_class = StoreSerializer
+    name = 'store-list'
+    
+    search_fields = (
+        '^store_name',
+        '^store_address',
+    )

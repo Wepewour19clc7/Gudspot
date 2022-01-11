@@ -1,8 +1,11 @@
 # Login session
+
 ## Register
-* API link: ```<hostname>/api/register/``` 
-* Method: ```POST```
-* Body:
+
+- API link: `<hostname>/api/register/`
+- Method: `POST`
+- Body:
+
 ```
 {
     "username": <username>,
@@ -11,7 +14,9 @@
     "type": <usertype> (ADMIN = 0,OWNER = 1, USERS = 2)
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "status": "success",
@@ -19,19 +24,24 @@
     "message": "Account created",
 }
 ```
+
 <br>
 
 ## Login
-* API link: ```<hostname>/api/login/```
-* Method: ```POST```
-* Header:
+
+- API link: `<hostname>/api/login/`
+- Method: `POST`
+- Header:
+
 ```
 {
     "username": <username>,
     "password": <password>
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "expiry": <date and time>
@@ -41,32 +51,76 @@
     "type": <usertype>
 }
 ```
+
 ## Logout
-* API link: ```<hostname>/api/logout/```
-* Method: ```POST```
-* Header: 
+
+- API link: `<hostname>/api/logout/`
+- Method: `POST`
+- Header:
+
 ```
 "Authorization": Token <token>
 ```
-* Response: None
+
+- Response: None
 
 ## Change password
-* API link: ```<hostname>/api/change-password/```
-* Method: ```PUT```
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- API link: `<hostname>/api/change-password/`
+- Method: `PUT`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
 {
     old_password: <old password>,
     new_password: <new password>
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "status": "success",
     "code": 200,
     "message": "Password updated successfully",
 }
+```
+
+## Search Store (conda install -c conda-forge django-filter)
+Return list of store if keyword is in store name or store address
+
+- API link: `<hostname>/api/storelist?search=<keyword>`
+- Method: `GET`
+- Response: Example:
+
+```
+[
+    {
+        "owner_id": 6,
+        "store_name": "TestStore1",
+        "store_address": "247NVS",
+        "img_url": {
+            "1": "sdsd"
+        }
+    },
+    {
+        "owner_id": 6,
+        "store_name": "TestStore2",
+        "store_address": "247NVS",
+        "img_url": {
+            "1": "sdsd"
+        }
+    },
+    {
+        "owner_id": 6,
+        "store_name": "TestStore3",
+        "store_address": "247NVS",
+        "img_url": {
+            "1": "sdsd"
+        }
+    }
+]
 ```

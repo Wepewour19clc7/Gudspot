@@ -29,7 +29,7 @@ class Store(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     img_url = models.JSONField()
     def __str__(self):
-        return self.title
+        return self.store_name
 
 # Blog model
 class Blog(models.Model):
@@ -40,8 +40,7 @@ class Blog(models.Model):
     img_url = models.JSONField()
     posted_date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.title
+
 
 # Review model
 class Review(models.Model):
@@ -58,8 +57,7 @@ class Review(models.Model):
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
     user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
     score = models.IntegerField(choices=REVIEW_SCORE)
-    def __str__(self):
-        return self.title
+
 
 # Comment model
 class Comment(models.Model):
@@ -72,8 +70,6 @@ class Comment(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     
 
-    def __str__(self):
-        return self.title
 
 # Favorite model
 class Favorite(models.Model):
@@ -92,5 +88,3 @@ class Follow(models.Model):
 
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
     user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
-    def __str__(self):
-        return self.title
