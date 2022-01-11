@@ -4,8 +4,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.decorators import api_view
+from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
+from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.shortcuts import render
@@ -109,3 +112,10 @@ class CreateStoreView(generics.GenericAPIView):
 class GetBlog(generics.GenericAPIView):
     serializer_class = BlogSerializer
     model = Blog
+
+
+#Search Store API
+class StoreView(generics.ListAPIView):
+    queryset = Store.objects.all()
+    serializers_class = StoreSerializer
+    filter_backends = (DjangoFilterBackend,SearchFilter)
