@@ -18,7 +18,7 @@ class user_information(models.Model):
     description = TextField()
     user_id = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     user_type = models.IntegerField(choices=USER_TYPES.choices)
-    avatar = JSONField()
+    avatar = models.JSONField()
 
 # Store model
 class Store(models.Model):
@@ -65,6 +65,8 @@ class Comment(models.Model):
     blog_id = models.ForeignKey(Blog, on_delete=CASCADE)
     user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
     content = models.TextField()
+    create_date = models.DateTimeField(auto_now_add=True)
+    
 
 
 # Favorite model

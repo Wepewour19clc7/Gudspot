@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from app.models import Store,Review,Comment,Blog,Follow,Favorite
+from app.models import Store,Review,Comment,Blog,Follow,Favorite, user_information
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
@@ -85,9 +85,16 @@ class FollowSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         return Follow.objects.create(**validated_data)
 
-class GetBlogSerializer(serializers.Serializer):
+class GetBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ('store_id')
     def create(self,validated_data):
         return Blog.objects.create(**validated_data)
+
+class ChangeAvatarSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = user_information
+        fields = ('user_id')
+    def create(self, validated_data):
+        return user_information.objects.create(**validated_data)

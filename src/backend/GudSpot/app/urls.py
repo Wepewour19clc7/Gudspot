@@ -12,5 +12,5 @@ urlpatterns = [
          name='change-password'),
     path('api/create-store', CreateStoreView.as_view(),name='createstore'),
     path('api/writeblogs', WriteBlog.as_view(),name='writeblogs'),
-    
+    path('api/getblogs',GetBlog.as_view(),name='getblogs')
 ]
