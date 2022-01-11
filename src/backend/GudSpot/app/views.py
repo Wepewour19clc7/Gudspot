@@ -29,6 +29,7 @@ class RegisterAPI(generics.GenericAPIView):
             user_type=request.data['type'],
             user_id=user,
             avatar=request.data['avatar'],
+            username=request.data['username'],
             description=request.data['description']).save()
         return Response({
             "status": 'success',
@@ -126,9 +127,6 @@ class GetBlog(generics.GenericAPIView):
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ChangeAvatarView(generics.GenericAPIView):
-    pass
-
 #Search store 
 class StoreList(generics.ListCreateAPIView):
     queryset = Store.objects.all()
@@ -139,3 +137,16 @@ class StoreList(generics.ListCreateAPIView):
         '^store_name',
         '^store_address',
     )
+
+class StorePageView(generics.GenericAPIView):
+    serializer_class = StorePageSerializer
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            store_id = request.data['store_id']
+            store_data = model_to_dict(Store.objects.get(id=store_id))
+            owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
+            return Response({
+                "store_data": store_data,
+                "owner_data": owner_data
+            })

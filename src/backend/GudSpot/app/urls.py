@@ -14,4 +14,6 @@ urlpatterns = [
     path('api/writeblogs', WriteBlog.as_view(),name='writeblogs'),
     path('api/getblogs',GetBlog.as_view(),name='getblogs'),
     path('api/storelist',StoreList.as_view(),name='store-list'),
+    path('api/storepage',StorePageView.as_view(),name='storepages'),
+
 ]
