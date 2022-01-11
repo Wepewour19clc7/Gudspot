@@ -1,11 +1,8 @@
-# Login session
-
+# Account session
 ## Register
-
-- API link: `<hostname>/api/register/`
-- Method: `POST`
-- Body:
-
+* API link: ```<hostname>/api/register``` 
+* Method: ```POST```
+* Body:
 ```
 {
     "username": <username>,
@@ -28,11 +25,9 @@
 <br>
 
 ## Login
-
-- API link: `<hostname>/api/login/`
-- Method: `POST`
-- Header:
-
+* API link: ```<hostname>/api/login```
+* Method: ```POST```
+* Header:
 ```
 {
     "username": <username>,
@@ -53,11 +48,9 @@
 ```
 
 ## Logout
-
-- API link: `<hostname>/api/logout/`
-- Method: `POST`
-- Header:
-
+* API link: ```<hostname>/api/logout```
+* Method: ```POST```
+* Header: 
 ```
 "Authorization": Token <token>
 ```
@@ -65,17 +58,15 @@
 - Response: None
 
 ## Change password
-
-- API link: `<hostname>/api/change-password/`
-- Method: `PUT`
-- Header:
-  `Authorization": Token <token>`
-- Body:
-
+* API link: ```<hostname>/api/change-password```
+* Method: ```PUT```
+* Header:
+```Authorization": Token <token>```
+* Body:
 ```
 {
-    old_password: <old password>,
-    new_password: <new password>
+    "old_password": <old password>,
+    "new_password": <new password>
 }
 ```
 
@@ -88,7 +79,7 @@
     "message": "Password updated successfully",
 }
 ```
-
+# Store
 ## Search Store (conda install -c conda-forge django-filter)
 Return list of store if keyword is in store name or store address
 
@@ -123,4 +114,29 @@ Return list of store if keyword is in store name or store address
         }
     }
 ]
+
+## Create store
+* API link: ```<hostname>/api/create-store```
+* Method: ```POST```
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{   
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
+```
+* Response:
+```
+{
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
 ```
