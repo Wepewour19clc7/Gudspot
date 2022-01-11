@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from .serializers import *
 from .models import *
+from django.forms.models import model_to_dict
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -92,8 +93,11 @@ class WriteBlog(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         
         if serializer.is_valid():
-            serializer.save()
-            return Response({"status": ["OK"]}, status=status.HTTP_200_OK)
+            obj = serializer.save()
+            data = Blog.objects.get(store_id=obj.store_id)
+            response = model_to_dict(data)
+            response['Status'] = '200'
+            return Response(response)
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -105,20 +109,19 @@ class CreateStoreView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         
         if serializer.is_valid():
-            serializer.save()
-            return Response({"status": ["OK"]}, status=status.HTTP_200_OK)
+            obj = serializer.save()
+            data = Store.objects.get(id=obj.id)
+            return Response(model_to_dict(data))
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetBlog(generics.GenericAPIView):
-    serializer_class = BlogSerializer
-    model = Blog
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        obj = serializer.save()
-        data = Blog.ojects.get(store_id=obj.store_id)
+        data = Blog.objects.get(store_id=request.data['store_id'])
         if data != None:
-            return Response(data)
+            response = model_to_dict(data)
+            response['Status'] = '200'
+            return Response(response)
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
