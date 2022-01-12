@@ -16,6 +16,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Blog',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('content', models.TextField()),
+                ('img_url', models.JSONField()),
+                ('posted_date', models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='user_information',
             fields=[
                 ('description', models.TextField()),
@@ -38,15 +47,24 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Blog',
+            name='Comment',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField()),
-                ('img_url', models.JSONField()),
-                ('posted_date', models.DateTimeField(auto_now_add=True)),
-                ('store_id', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='app.store')),
-                ('user_id', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('create_date', models.DateTimeField(auto_now_add=True)),
+                ('blog_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.blog')),
+                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.AddField(
+            model_name='blog',
+            name='store_id',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.store'),
+        ),
+        migrations.AddField(
+            model_name='blog',
+            name='user_id',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.CreateModel(
             name='Review',
@@ -78,18 +96,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'unique_together': {('store_id', 'user_id')},
-            },
-        ),
-        migrations.CreateModel(
-            name='Comment',
-            fields=[
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='auth.user')),
-                ('content', models.TextField()),
-                ('create_date', models.DateTimeField(auto_now_add=True)),
-                ('blog_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.blog')),
-            ],
-            options={
-                'unique_together': {('blog_id', 'user_id')},
             },
         ),
     ]

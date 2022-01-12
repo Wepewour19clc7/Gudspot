@@ -114,8 +114,35 @@ Return list of store if keyword is in store name or store address
         }
     }
 ]
+```
 
 ## Create store
+* API link: ```<hostname>/api/create-store```
+* Method: ```POST```
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{   
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
+```
+* Response:
+```
+{
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
+```
+# Blogs
+## Write Blogs
 * API link: ```<hostname>/api/create-store```
 * Method: ```POST```
 * Header:

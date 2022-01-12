@@ -9,3 +9,4 @@ dependencies:
   - python=3.9.7=hb7a2778_3_cpython
   - pip:
     - django-rest-knox==4.1.0
+    - django_filters
