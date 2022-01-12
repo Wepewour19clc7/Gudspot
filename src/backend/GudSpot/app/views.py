@@ -15,8 +15,6 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.forms.models import model_to_dict
-from django.core import serializers
-from rest_framework.renderers import JSONRenderer
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -159,17 +157,15 @@ class StorePageView(generics.GenericAPIView):
             },status=status.HTTP_200_OK)
 
 class UserInformationView(generics.GenericAPIView):
-    serializer_class = UserInformationSerializer
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            data = user_information.objects.get(user_id=request.data['user_id'])
+        data = user_information.objects.get(user_id=request.data['user_id'])
+        if data != None:
             response = model_to_dict(data)
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             return Response(model_to_dict(data),status=status.HTTP_200_OK)
         else:
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         
 
 class FollowStore(generics.GenericAPIView):

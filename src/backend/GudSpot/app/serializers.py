@@ -103,8 +103,3 @@ class StorePageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ('id',)
-
-class UserInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = user_information
-        fields = ('user_id',)
