@@ -103,3 +103,13 @@ class StorePageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ('id',)
+        
+
+#Change user info 
+class ChangeInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = user_information
+        fields = ('user_id')
+    def update(self,validated_data):
+        return user_information.objects.update(**validated_data)
+    
