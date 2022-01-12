@@ -15,7 +15,8 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.forms.models import model_to_dict
-
+from django.core import serializers
+from rest_framework.renderers import JSONRenderer
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -118,12 +119,15 @@ class CreateStoreView(generics.GenericAPIView):
 
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        data = Blog.objects.get(store_id=request.data['store_id'])
+        data = Blog.objects.all().filter(store_id=request.data['store_id'])
         if data != None:
-            response = model_to_dict(data)
+            response = dict()
+            count = 0
+            for blog in data:
+                response[str(count)] = model_to_dict(blog)
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
-            return Response(response)
+            return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
