@@ -181,10 +181,10 @@ class FollowStore(generics.GenericAPIView):
         user_id = request.POST['user_id']
         data = Follow.objects.filter(store_id_id=store_id,user_id_id=user_id)
 
-        message = {"Success": "Store Followed","status":"201"}
+        message = {"Message": "Store Followed","status":"success","code":201}
         response = Response()
         if data.exists():
-            message = {"Success": "Store Unfollowed","status":"201"}
+            message['Message'] = "Store Unfollowed"
             data.delete()
             response = Response(message, status=status.HTTP_201_CREATED)
         else:
