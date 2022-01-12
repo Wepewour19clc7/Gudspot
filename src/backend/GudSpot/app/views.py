@@ -33,9 +33,9 @@ class RegisterAPI(generics.GenericAPIView):
             description=request.data['description']).save()
         return Response({
             "status": 'success',
-            'code': status.HTTP_200_OK,
+            'code': status.HTTP_201_CREATED,
             'message': 'Account created',
-        })
+        },status=status.HTTP_201_CREATED)
 
 
 class LoginAPI(KnoxLoginView):
@@ -82,7 +82,7 @@ class ChangePasswordView(generics.UpdateAPIView):
                 'data': []
             }
 
-            return Response(response)
+            return Response(response,status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -95,12 +95,12 @@ class WriteBlog(generics.GenericAPIView):
         
         if serializer.is_valid():
             obj = serializer.save()
-            data = Blog.objects.get(store_id=obj.store_id)
+            data = Blog.objects.get(id=obj.id)
             response = model_to_dict(data)
-            response['status'] = 'OK'
-            return Response(response)
+            response['status'] = 'success'
+            return Response(response,status=status.HTTP_201_CREATED)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class CreateStoreView(generics.GenericAPIView):
     serializer_class = StoreSerializer
@@ -112,19 +112,20 @@ class CreateStoreView(generics.GenericAPIView):
         if serializer.is_valid():
             obj = serializer.save()
             data = Store.objects.get(id=obj.id)
-            return Response(model_to_dict(data))
+            return Response(model_to_dict(data),status=status.HTTP_200_OK)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         data = Blog.objects.get(store_id=request.data['store_id'])
         if data != None:
             response = model_to_dict(data)
-            response['status'] = '200'
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
             return Response(response)
         else:
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 #Search store 
@@ -147,9 +148,11 @@ class StorePageView(generics.GenericAPIView):
             store_data = model_to_dict(Store.objects.get(id=store_id))
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
             return Response({
+                "status": "success",
+                "code" : status.HTTP_200_OK,
                 "store_data": store_data,
                 "owner_data": owner_data
-            })
+            },status=status.HTTP_200_OK)
 
 class UserInformationView(generics.GenericAPIView):
     serializer_class = UserInformationSerializer
@@ -157,6 +160,9 @@ class UserInformationView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             data = user_information.objects.get(user_id=request.data['user_id'])
-            return Response(model_to_dict(data))
+            response = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(model_to_dict(data),status=status.HTTP_200_OK)
         else:
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
