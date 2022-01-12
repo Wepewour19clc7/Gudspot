@@ -160,3 +160,31 @@ class UserInformationView(generics.GenericAPIView):
             return Response(model_to_dict(data))
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class FollowStore(generics.GenericAPIView):
+    serializer_class = FollowSerializer
+    model = Follow
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        # serializer = self.get_serializer(data=request.data)
+        # if serializer.is_valid():
+        # print(serializer.is_valid())
+        # obj = serializer.save()
+        store_id = request.POST['store_id']
+        user_id = request.POST['user_id']
+        data = Follow.objects.filter(store_id_id=store_id,user_id_id=user_id)
+
+        message = {"Success": "Store Followed","status":"201"}
+        response = Response()
+        if data.exists():
+            message = {"Success": "Store Unfollowed","status":"201"}
+            data.delete()
+            response = Response(message, status=status.HTTP_201_CREATED)
+        else:
+            follow = Follow.objects.create(store_id_id=store_id,user_id_id=user_id)
+            follow.save()
+            response = Response(message, status=status.HTTP_201_CREATED)
+            
+        return response            
+        

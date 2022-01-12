@@ -88,4 +88,4 @@ class Follow(models.Model):
         unique_together = (("store_id", "user_id"),)
 
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)

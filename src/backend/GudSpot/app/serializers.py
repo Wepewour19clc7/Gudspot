@@ -80,7 +80,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ('id','store_id','user_id')
+        fields = ('store_id','user_id')
 
     def create(self,validated_data):
         return Follow.objects.create(**validated_data)
