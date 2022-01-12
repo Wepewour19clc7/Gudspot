@@ -149,11 +149,14 @@ class StorePageView(generics.GenericAPIView):
             store_id = request.data['store_id']
             store_data = model_to_dict(Store.objects.get(id=store_id))
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
+            followers = Follow.objects.filter(store_id=store_id).count()
+            store_data['follow_counts'] = followers
             return Response({
                 "status": "success",
                 "code" : status.HTTP_200_OK,
                 "store_data": store_data,
-                "owner_data": owner_data
+                "owner_data": owner_data,
+                
             },status=status.HTTP_200_OK)
 
 class UserInformationView(generics.GenericAPIView):
