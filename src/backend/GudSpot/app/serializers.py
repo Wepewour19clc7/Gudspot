@@ -35,7 +35,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ('owner_id','store_name','store_address','img_url')
+        fields = ('owner_id','store_name','store_address','img_url','description')
 
     def create(self,validated_data):
         return Store.objects.create(**validated_data)

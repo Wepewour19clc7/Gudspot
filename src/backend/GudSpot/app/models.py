@@ -70,8 +70,6 @@ class Comment(models.Model):
     content = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     
-
-
 # Favorite model
 class Favorite(models.Model):
     class Meta:
