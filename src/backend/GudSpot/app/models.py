@@ -34,10 +34,10 @@ class Store(models.Model):
 
 # Blog model
 class Blog(models.Model):
-    user_id = models.OneToOneField(User, on_delete=CASCADE)
-    store_id = models.OneToOneField(Store, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
+    store_id = models.ForeignKey(Store, on_delete=CASCADE)
     
-    content = models.TextField()
+         = models.TextField()
     img_url = models.JSONField()
     posted_date = models.DateTimeField(auto_now_add=True)
 
@@ -68,8 +68,6 @@ class Comment(models.Model):
     content = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     
-
-
 # Favorite model
 class Favorite(models.Model):
     class Meta:
@@ -86,4 +84,4 @@ class Follow(models.Model):
         unique_together = (("store_id", "user_id"),)
 
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)

@@ -35,7 +35,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ('owner_id','store_name','store_address','img_url')
+        fields = ('owner_id','store_name','store_address','img_url','description')
 
     def create(self,validated_data):
         return Store.objects.create(**validated_data)
@@ -80,7 +80,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ('id','store_id','user_id')
+        fields = ('store_id','user_id')
 
     def create(self,validated_data):
         return Follow.objects.create(**validated_data)
@@ -103,8 +103,3 @@ class StorePageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ('id',)
-
-class UserInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = user_information
-        fields = ('user_id',)

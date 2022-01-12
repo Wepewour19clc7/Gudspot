@@ -80,8 +80,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Follow',
             fields=[
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='auth.user')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('store_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.store')),
+                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'unique_together': {('store_id', 'user_id')},

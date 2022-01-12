@@ -16,7 +16,6 @@ from .serializers import *
 from .models import *
 from django.forms.models import model_to_dict
 
-
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -33,9 +32,9 @@ class RegisterAPI(generics.GenericAPIView):
             description=request.data['description']).save()
         return Response({
             "status": 'success',
-            'code': status.HTTP_200_OK,
+            'code': status.HTTP_201_CREATED,
             'message': 'Account created',
-        })
+        },status=status.HTTP_201_CREATED)
 
 
 class LoginAPI(KnoxLoginView):
@@ -82,7 +81,7 @@ class ChangePasswordView(generics.UpdateAPIView):
                 'data': []
             }
 
-            return Response(response)
+            return Response(response,status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -95,12 +94,12 @@ class WriteBlog(generics.GenericAPIView):
         
         if serializer.is_valid():
             obj = serializer.save()
-            data = Blog.objects.get(store_id=obj.store_id)
+            data = Blog.objects.get(id=obj.id)
             response = model_to_dict(data)
-            response['status'] = 'OK'
-            return Response(response)
+            response['status'] = 'success'
+            return Response(response,status=status.HTTP_201_CREATED)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class CreateStoreView(generics.GenericAPIView):
     serializer_class = StoreSerializer
@@ -112,19 +111,23 @@ class CreateStoreView(generics.GenericAPIView):
         if serializer.is_valid():
             obj = serializer.save()
             data = Store.objects.get(id=obj.id)
-            return Response(model_to_dict(data))
+            return Response(model_to_dict(data),status=status.HTTP_200_OK)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        data = Blog.objects.get(store_id=request.data['store_id'])
+        data = Blog.objects.filter(store_id_id=request.data['store_id'])
+        with open("file.txt","w") as f:
+            f.write(str(type(data[0])))
         if data != None:
-            response = model_to_dict(data)
-            response['status'] = '200'
-            return Response(response)
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
         else:
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 #Search store 
@@ -146,18 +149,24 @@ class StorePageView(generics.GenericAPIView):
             store_id = request.data['store_id']
             store_data = model_to_dict(Store.objects.get(id=store_id))
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
+            followers = Follow.objects.filter(store_id=store_id).count()
+            store_data['follow_counts'] = followers
             return Response({
+                "status": "success",
+                "code" : status.HTTP_200_OK,
                 "store_data": store_data,
-                "owner_data": owner_data
-            })
+                "owner_data": owner_data,
+                
+            },status=status.HTTP_200_OK)
 
 class UserInformationView(generics.GenericAPIView):
-    serializer_class = UserInformationSerializer
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            data = user_information.objects.get(user_id=request.data['user_id'])
-            return Response(model_to_dict(data))
+        data = user_information.objects.get(user_id=request.data['user_id'])
+        if data != None:
+            response = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(model_to_dict(data),status=status.HTTP_200_OK)
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -175,3 +184,32 @@ class CreateComment(generics.GenericAPIView):
             return Response(model_to_dict(data))
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class FollowStore(generics.GenericAPIView):
+    serializer_class = FollowSerializer
+    model = Follow
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        # serializer = self.get_serializer(data=request.data)
+        # if serializer.is_valid():
+        # print(serializer.is_valid())
+        # obj = serializer.save()
+        store_id = request.POST['store_id']
+        user_id = request.POST['user_id']
+        data = Follow.objects.filter(store_id_id=store_id,user_id_id=user_id)
+
+        message = {"Message": "Store Followed","status":"success","code":201}
+        response = Response()
+        if data.exists():
+            message['Message'] = "Store Unfollowed"
+            data.delete()
+            response = Response(message, status=status.HTTP_201_CREATED)
+        else:
+            follow = Follow.objects.create(store_id_id=store_id,user_id_id=user_id)
+            follow.save()
+            response = Response(message, status=status.HTTP_201_CREATED)
+            
+        return response            
+        
