@@ -15,11 +15,11 @@ class user_information(models.Model):
         ADMIN = 0
         OWNER = 1
         USERS = 2
-    description = TextField()
     user_id = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     user_type = models.IntegerField(choices=USER_TYPES.choices)
-    avatar = models.JSONField()
     username = models.CharField(max_length=100)
+    avatar = models.JSONField()
+    description = TextField()
 
 # Store model
 class Store(models.Model):
@@ -37,7 +37,7 @@ class Blog(models.Model):
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
     
-         = models.TextField()
+    content = models.TextField()
     img_url = models.JSONField()
     posted_date = models.DateTimeField(auto_now_add=True)
 

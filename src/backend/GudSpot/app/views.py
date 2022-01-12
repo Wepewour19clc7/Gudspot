@@ -166,7 +166,7 @@ class UserInformationView(generics.GenericAPIView):
             response = model_to_dict(data)
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
-            return Response(model_to_dict(data),status=status.HTTP_200_OK)
+            return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -213,3 +213,32 @@ class FollowStore(generics.GenericAPIView):
             
         return response            
         
+class ChangeUserInfo(generics.GenericAPIView):
+    serializer_class = ChangeInfoSerializer
+    model = user_information
+    permission_classes = (IsAuthenticated,)
+    #POST method
+    def post(self, request, *args, **kwargs):
+        user_id = request.POST['user_id']
+        username = request.POST['username']
+        avatar = request.POST['avatar']
+        description = request.POST['description']
+        data = user_information.objects.filter(
+            user_id_id = user_id,
+        )
+        
+        #Check if data exists 
+        if data.exists():
+            obj = user_information.objects.update(
+                username = username,
+                avatar = avatar,
+                description = description
+            )
+            obj = user_information.objects.get(user_id_id = user_id)
+            response = model_to_dict(obj)
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+            

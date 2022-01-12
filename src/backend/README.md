@@ -202,3 +202,31 @@ Return list of store if keyword is in store name or store address
     "code": 201
 }
 ```
+
+## Change user information: 
+* API link: ```<hostname>/api/user-info/edit```
+* Method: ```POST``` 
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{   
+
+    "user_id": <store id>
+    "username": <store id>
+    "avatar": <store id>
+    "description": <user id>
+}
+```
+* Response:Example
+```
+{
+    "user_id": 1,
+    "user_type": 1,
+    "username": "test1ver3",
+    "avatar": "{\"3\":\"test3\"}",
+    "description": "fk u 3",
+    "status": "success",
+    "code": 200
+}
+```
