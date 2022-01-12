@@ -194,4 +194,3 @@ class FollowStore(generics.GenericAPIView):
             
         return response            
         
-            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
