@@ -121,7 +121,7 @@ class GetBlog(generics.GenericAPIView):
         data = Blog.objects.get(store_id=request.data['store_id'])
         if data != None:
             response = model_to_dict(data)
-            response['Status'] = '200'
+            response['status'] = '200'
             return Response(response)
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
