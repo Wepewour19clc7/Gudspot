@@ -180,3 +180,25 @@ Return list of store if keyword is in store name or store address
     "description": <text>
 }
 ```
+
+## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
+
+* API link: ```<hostname>/api/followstore```
+* Method: ```POST``` 
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{   
+    "store_id": <store id>
+    "user_id": <user id>
+}
+```
+* Response:
+```
+{
+    "Message": "Store Unfollowed"/ "Store Followed"
+    "status": "success"
+    "code": 201
+}
+```
