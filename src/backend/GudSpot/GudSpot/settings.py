@@ -78,13 +78,13 @@ WSGI_APPLICATION = "GudSpot.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'gudspot',
-        'USER': 'root',
-        'PASSWORD': 'my-secret-pw',
-        'HOST': '172.17.0.5',
-        'PORT': '3306',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "GudSpot",
+        "USER": "root",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
     }
 }
 
@@ -107,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000',)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

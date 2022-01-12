@@ -112,4 +112,14 @@ class ChangeInfoSerializer(serializers.ModelSerializer):
         fields = ('user_id')
     def update(self,validated_data):
         return user_information.objects.update(**validated_data)
-    
+
+# Review
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['user_id','store_id','score','description']
+
+class GetReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ('store_id',)

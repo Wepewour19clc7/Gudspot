@@ -56,8 +56,9 @@ class Review(models.Model):
         (5, "VeryGood"),
     ]
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
     score = models.IntegerField(choices=REVIEW_SCORE)
+    description = models.TextField()
 
 
 # Comment model
@@ -73,7 +74,7 @@ class Favorite(models.Model):
         unique_together = (("store_id", "user_id"),)
 
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
     def __str__(self):
         return self.title
 
