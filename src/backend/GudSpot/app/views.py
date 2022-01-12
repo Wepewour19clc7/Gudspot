@@ -160,3 +160,18 @@ class UserInformationView(generics.GenericAPIView):
             return Response(model_to_dict(data))
         else:
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+
+#Comment
+class CreateComment(generics.GenericAPIView):
+    serializer_class = CommentSerializer
+    model = Comment
+    permissions_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            obj = serializer.save()
+            data = Comment.objects.get(id=obj.id)
+            return Response(model_to_dict(data))
+        else: 
+            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)

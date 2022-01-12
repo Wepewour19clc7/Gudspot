@@ -62,11 +62,9 @@ class Review(models.Model):
 
 # Comment model
 class Comment(models.Model):
-    class Meta:
-        unique_together = (("blog_id", "user_id"),)
-
+    id = models.AutoField(primary_key=True)
     blog_id = models.ForeignKey(Blog, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     
