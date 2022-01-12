@@ -97,7 +97,7 @@ class WriteBlog(generics.GenericAPIView):
             obj = serializer.save()
             data = Blog.objects.get(store_id=obj.store_id)
             response = model_to_dict(data)
-            response['Status'] = '200'
+            response['status'] = 'OK'
             return Response(response)
         else: 
             return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
@@ -150,3 +150,13 @@ class StorePageView(generics.GenericAPIView):
                 "store_data": store_data,
                 "owner_data": owner_data
             })
+
+class UserInformationView(generics.GenericAPIView):
+    serializer_class = UserInformationSerializer
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            data = user_information.objects.get(user_id=request.data['user_id'])
+            return Response(model_to_dict(data))
+        else:
+            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
