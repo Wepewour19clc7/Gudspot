@@ -116,6 +116,19 @@ Return list of store if keyword is in store name or store address
 ]
 ```
 
+## Get store page
+- API link: `<hostname>/api/storelist?search=<keyword>`
+- Method: `GET`
+* Header 
+```Authorization": Token <token>```
+- Body:
+```
+{
+    "store_id": <id>
+}
+```
+* Repspose
+
 ## Create store
 * API link: ```<hostname>/api/create-store```
 * Method: ```POST```
