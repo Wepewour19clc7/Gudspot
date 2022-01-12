@@ -194,7 +194,7 @@ Return list of store if keyword is in store name or store address
     "user_id": <user id>
 }
 ```
-* Response:
+* Response: Example
 ```
 {
     "Message": "Store Unfollowed"/ "Store Followed"
@@ -218,7 +218,34 @@ Return list of store if keyword is in store name or store address
     "description": <user id>
 }
 ```
-* Response:Example
+* Response: Example
+```
+{
+    "user_id": 1,
+    "user_type": 1,
+    "username": "test1ver3",
+    "avatar": "{\"3\":\"test3\"}",
+    "description": "fk u 3",
+    "status": "success",
+    "code": 200
+}
+```
+# Review
+* API link: ```<hostname>/api/user-info/edit```
+* Method: ```POST``` 
+* Header:
+```Authorization": Token <token>```
+* Body:
+```
+{   
+
+    "user_id": <user id>
+    "store_id": <store id>
+    "score": <score> (1 - 5)
+    "description": <text>
+}
+```
+* Response: Example
 ```
 {
     "user_id": 1,
