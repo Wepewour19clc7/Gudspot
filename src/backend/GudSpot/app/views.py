@@ -119,12 +119,12 @@ class CreateStoreView(generics.GenericAPIView):
 
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        data = Blog.objects.all().filter(store_id=request.data['store_id'])
+        data = Blog.objects.filter(store_id_id=request.data['store_id'])
+        with open("file.txt","w") as f:
+            f.write(str(type(data[0])))
         if data != None:
             response = dict()
-            count = 0
-            for blog in data:
-                response[str(count)] = model_to_dict(blog)
+            response['data'] = data.values()
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             return Response(response,status=status.HTTP_200_OK)
