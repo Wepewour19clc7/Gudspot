@@ -180,9 +180,11 @@ class CreateComment(generics.GenericAPIView):
         if serializer.is_valid():
             obj = serializer.save()
             data = Comment.objects.get(id=obj.id)
-            return Response(model_to_dict(data))
+            response = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '201'
+            return Response(response,status=status.HTTP_201_CREATED)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         
 
