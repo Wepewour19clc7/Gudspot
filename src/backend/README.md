@@ -178,9 +178,6 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-## Get store page list
-# Store
-
 ## Store Dashboard by Create-date
 
 - API link: `<hostname>/api/storedashboard
@@ -208,20 +205,6 @@ Return list of store if keyword is in store name or store address
 
 ## Get store page
 
-- API link: `<hostname>/api/storelist?search=<keyword>`
-- Method: `GET`
-
-* Header
-  `Authorization": Token <token>`
-
-- Body:
-
-```
-{
-    "store_id": <id>
-}
-```
-## Get store page
 - API link: `<hostname>/api/store_id=<id>`
 - Method: `GET`
 
@@ -250,7 +233,6 @@ Return list of store if keyword is in store name or store address
     }
 }
 ```
-- Repspose
 
 ## Create store
 
@@ -406,43 +388,23 @@ Return list of store if keyword is in store name or store address
     "code": 200
 }
 ```
-# Follow
-## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
 
-- API link: `<hostname>/api/followstore`
-- Method: `POST`
-- Header:
-  `Authorization": Token <token>`
-- Body:
-
-```
-{
-    "store_id": <store id>
-    "user_id": <user id>
-}
-```
-
-- Response: Example
-
-```
-{
-    "Message": "Store Unfollowed"/ "Store Followed"
-    "status": "success"
-    "code": 201
-}
-```
 ## Get user follow list
+
 - API link: `<hostname>/api/get-user-follow`
 - Method: `POST`
 - Header:
   `Authorization": Token <token>`
 - Body:
+
 ```
 {
     "user_id": <user id>
 }
 ```
+
 - Response: example
+
 ```
 {
     "data": [
@@ -539,7 +501,9 @@ Return list of store if keyword is in store name or store address
 ```
 
 # Comment
+
 ## Create comment
+
 - API link: `<hostname>/api/createcomment`
 - Method: `POST`
 - Header:
