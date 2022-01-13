@@ -82,7 +82,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "GudSpot",
         "USER": "root",
-        "PASSWORD": "password",
+        "PASSWORD": "datnguyen2901",
         "HOST": "127.0.0.1",
         "PORT": "3306",
     }
@@ -141,9 +141,10 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1
+    'PAGE_SIZE': 20
 }
 
 APPEND_SLASH = False

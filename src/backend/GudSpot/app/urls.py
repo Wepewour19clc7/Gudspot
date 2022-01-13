@@ -21,4 +21,6 @@ urlpatterns = [
     path('api/review',CreateReviewView.as_view(),name='create-review'),
     path('api/get-review',GetReviewView.as_view(),name='get-review'),
     path('api/get-user-follow', GetUserFollows.as_view(), name='get-user-follow')
+    path('api/storedashboard',StoreDashboard.as_view(),name='store-dashboard'),
+
 ]

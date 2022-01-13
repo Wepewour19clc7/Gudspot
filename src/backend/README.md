@@ -88,7 +88,9 @@
     "message": "Password updated successfully",
 }
 ```
+
 ## Get user info
+
 - API link: `<hostname>/api/get-review`
 - Method: `GET`
 
@@ -99,7 +101,8 @@
     "user_id": <id>
 }
 ```
-* Response: example
+
+- Response: example
 
 ```
 {
@@ -112,21 +115,26 @@
     "code": 200
 }
 ```
+
 ## Change user information
-* API link: ```<hostname>/api/user-info/edit```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- API link: `<hostname>/api/user-info/edit`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
     "user_id": <user id>
     "store_id": <store id>
     "score": <score> (1 - 5)
     "description": <text>
 }
 ```
-* Response: Example
+
+- Response: Example
+
 ```
 {
     "user_id": 1,
@@ -171,6 +179,34 @@ Return list of store if keyword is in store name or store address
 ```
 
 ## Get store page list
+# Store
+
+## Store Dashboard by Create-date
+
+- API link: `<hostname>/api/storedashboard
+- Method: `GET`
+- Response: Example:
+
+```
+{
+    "count": 3,
+    "next": "http://127.0.0.1:8000/api/storedashboard?page=2",
+    "previous": null,
+    "results": [
+        {
+            "owner_id": 1,
+            "store_name": "Test3",
+            "store_address": "327NVC4",
+            "img_url": {
+                "1": "sfdfsd"
+            },
+            "description": "Fck this sh!t"
+        }
+    ]
+}
+```
+
+## Get store page
 
 - API link: `<hostname>/api/storelist?search=<keyword>`
 - Method: `GET`
@@ -286,17 +322,46 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
+## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
+
+- API link: `<hostname>/api/followstore`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
+```
+{
+    "store_id": <store id>
+    "user_id": <user id>
+}
+```
+
+- Response: Example
+
+```
+{
+    "Message": "Store Unfollowed"/ "Store Followed"
+    "status": "success"
+    "code": 201
+}
+```
+
 ## Get blogs of a store
 
 - API link: `<hostname>/api/getblogs`
 - Method: `GET`
+
 * Body:
+
 ```
 {
     "store_id": <store_id>
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "data": [
@@ -357,7 +422,8 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-* Response: Example
+- Response: Example
+
 ```
 {
     "Message": "Store Unfollowed"/ "Store Followed"
@@ -408,12 +474,15 @@ Return list of store if keyword is in store name or store address
 ```
 
 # Review
+
 ## New review
+
 - API link: `<hostname>/api/review`
 - Method: `POST`
 - Header:
   `Authorization": Token <token>`
 - Body:
+
 ```
 {
     "user_id" : <id>,
@@ -422,7 +491,9 @@ Return list of store if keyword is in store name or store address
     "description" : <text>
 }
 ```
-* Response: example
+
+- Response: example
+
 ```
 {
     "data": {
@@ -436,16 +507,21 @@ Return list of store if keyword is in store name or store address
     "code": "200"
 }
 ```
+
 ## Get review of a store
+
 - API link: `<hostname>/api/get-review`
 - Method: `GET`
 - Body:
+
 ```
 {
     "store_id": <store id>
 }
 ```
+
 - Response:
+
 ```
 {
     "data": [
@@ -469,6 +545,7 @@ Return list of store if keyword is in store name or store address
 - Header:
   `Authorization": Token <token>`
 - Body:
+
 ```
 {
     "user_id": <user id>,
@@ -476,7 +553,9 @@ Return list of store if keyword is in store name or store address
     "content": <text>
 }
 ```
+
 - Response: example
+
 ```
 {
     "id": 3,
