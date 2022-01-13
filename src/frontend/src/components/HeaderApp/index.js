@@ -3,16 +3,18 @@ import SearchBar from '../SearchBar'
 import { BellIcon, MenuAlt2Icon } from '@heroicons/react/outline'
 import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { deleteToken } from '../../auth'
+import { toast } from 'react-toastify'
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
 ]
 
-const HeaderApp = () => {
-  const [isLoggined, setIsLoggined] = React.useState(false)
+const HeaderApp = ({ isLogged }) => {
+  const [isLoggedState, setIsLoggedState] = React.useState(isLogged)
+  const history = useHistory()
   return (
     <div className='relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex'>
       <button
@@ -29,7 +31,7 @@ const HeaderApp = () => {
         <div className='flex-1 flex'>
           <SearchBar />
         </div>
-        {isLoggined ?
+        {isLoggedState ?
           <div className='ml-4 flex items-center md:ml-6'>
             <button
               type='button'
@@ -75,6 +77,17 @@ const HeaderApp = () => {
                       )}
                     </Menu.Item>
                   ))}
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div className={'block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 w-full cursor-pointer hover:text-blue-400'} onClick={() => {
+                        deleteToken()
+                        toast('Logout Successfully')
+                        history.push('/login')
+                      }}>
+                        Sign out
+                      </div>
+                    )}
+                  </Menu.Item>
                 </Menu.Items>
               </Transition>
             </Menu>

@@ -1,6 +1,7 @@
 name: django
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - django=3.2.8=pyhd8ed1ab_0
   - djangorestframework=3.12.4=pyhd8ed1ab_0

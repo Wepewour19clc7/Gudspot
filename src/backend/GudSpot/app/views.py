@@ -1,3 +1,4 @@
+from django.db import reset_queries
 from rest_framework import generics, permissions, serializers, status
 from rest_framework import response
 from rest_framework.response import Response
@@ -118,8 +119,6 @@ class CreateStoreView(generics.GenericAPIView):
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         data = Blog.objects.filter(store_id_id=request.data['store_id'])
-        with open("file.txt","w") as f:
-            f.write(str(type(data[0])))
         if data != None:
             response = dict()
             response['data'] = data.values()
@@ -241,4 +240,34 @@ class ChangeUserInfo(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
+class CreateReviewView(generics.GenericAPIView):
+    serializer_class = ReviewSerializer
+    model = Review
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            obj = serializer.save()
+            data = Review.objects.get(user_id=obj.user_id,store_id=obj.store_id)
+            response['data'] = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '200'
+            return Response(response,status=status.HTTP_200_OK)
+        else: 
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetReviewView(generics.GenericAPIView):
+    serializer_class = GetReviewSerializer
+    model = Review
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            data = Review.objects.filter(store_id=serializer.data['store_id'])
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
