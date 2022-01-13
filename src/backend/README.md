@@ -95,37 +95,29 @@
 
 Return list of store if keyword is in store name or store address
 
-- API link: `<hostname>/api/storelist?search=<keyword>`
-- Method: `GET`
-- Response: Example:
+- Update: add pagination
+
+* API link: `<hostname>/api/storelist?search=<keyword>&page=<page_number>`
+* Method: `GET`
+* Response: Example:
 
 ```
-[
-    {
-        "owner_id": 6,
-        "store_name": "TestStore1",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
+{
+    "count": 3,
+    "next": "http://127.0.0.1:8000/api/storelist?page=2&search=test",
+    "previous": null,
+    "results": [
+        {
+            "owner_id": 1,
+            "store_name": "Test1",
+            "store_address": "327NVC4",
+            "img_url": {
+                "1": "sfdfsd"
+            },
+            "description": "Fck this sh!t"
         }
-    },
-    {
-        "owner_id": 6,
-        "store_name": "TestStore2",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
-        }
-    },
-    {
-        "owner_id": 6,
-        "store_name": "TestStore3",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
-        }
-    }
-]
+    ]
+}
 ```
 
 ## Get store page
