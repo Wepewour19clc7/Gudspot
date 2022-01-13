@@ -19,9 +19,11 @@ class Migration(migrations.Migration):
             name='Blog',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(default='<django.db.models.fields.related.ForeignKey><django.db.models.fields.related.ForeignKey>', max_length=200)),
                 ('content', models.TextField()),
                 ('img_url', models.JSONField()),
                 ('posted_date', models.DateTimeField(auto_now_add=True)),
+                ('activated', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(

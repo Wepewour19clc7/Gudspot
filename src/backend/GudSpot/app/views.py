@@ -134,7 +134,7 @@ class StoreList(generics.ListCreateAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
     name = 'store-list'
-    
+    pagination_class = PageNumberPagination
     search_fields = (
         '^store_name',
         '^store_address',
