@@ -98,11 +98,6 @@ class ChangeAvatarSerializer(serializers.ModelSerializer):
         fields = ('user_id')
     def create(self, validated_data):
         return user_information.objects.create(**validated_data)
-
-class StorePageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = ('id',)
         
 
 #Change user info 
