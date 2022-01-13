@@ -249,6 +249,7 @@ class CreateReviewView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             obj = serializer.save()
+            response = dict()
             data = Review.objects.get(user_id=obj.user_id,store_id=obj.store_id)
             response['data'] = model_to_dict(data)
             response['status'] = 'success'
