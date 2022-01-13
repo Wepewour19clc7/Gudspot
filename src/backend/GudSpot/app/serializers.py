@@ -35,7 +35,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ('owner_id','store_name','store_address','img_url','description')
+        fields = ('owner_id','store_name','store_address','cover_img','avatar','description')
 
     def create(self,validated_data):
         return Store.objects.create(**validated_data)
@@ -54,16 +54,16 @@ class ReviewSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id','content')
+        fields = ('user_id','blog_id','content')
 
     def create(self,validated_data):
-        return Review.objects.create(**validated_data)
+        return Comment.objects.create(**validated_data)
     
 #Blog Serializer
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        fields = ('user_id', 'store_id','content','img_url')
+        fields = ('user_id', 'store_id','title','content','img_url')
     def create(self,validated_data):
         return Blog.objects.create(**validated_data)
     
@@ -98,11 +98,6 @@ class ChangeAvatarSerializer(serializers.ModelSerializer):
         fields = ('user_id')
     def create(self, validated_data):
         return user_information.objects.create(**validated_data)
-
-class StorePageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = ('id',)
         
 
 #Change user info 
@@ -112,4 +107,14 @@ class ChangeInfoSerializer(serializers.ModelSerializer):
         fields = ('user_id')
     def update(self,validated_data):
         return user_information.objects.update(**validated_data)
-    
+
+# Review
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['user_id','store_id','score','description']
+
+class GetReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ('store_id',)

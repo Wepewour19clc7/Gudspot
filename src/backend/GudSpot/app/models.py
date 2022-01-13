@@ -5,6 +5,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields import TextField
 from django.db.models.fields.json import JSONField
 from django.db.models.fields.related import ForeignKey
+from django.utils.translation import deactivate
 from knox.models import AuthToken
 from django.contrib.auth.models import User
 
@@ -28,7 +29,8 @@ class Store(models.Model):
     description = models.TextField()
     store_address = models.CharField(max_length=200)
     create_date = models.DateTimeField(auto_now_add=True)
-    img_url = models.JSONField()
+    avatar = models.URLField()
+    cover_img = models.JSONField()
     def __str__(self):
         return self.store_name
 
@@ -36,11 +38,11 @@ class Store(models.Model):
 class Blog(models.Model):
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    
+    title = models.CharField(max_length=200)
     content = models.TextField()
     img_url = models.JSONField()
     posted_date = models.DateTimeField(auto_now_add=True)
-
+    activated = models.BooleanField(default=False)
 
 
 # Review model
@@ -56,12 +58,14 @@ class Review(models.Model):
         (5, "VeryGood"),
     ]
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
     score = models.IntegerField(choices=REVIEW_SCORE)
+    description = models.TextField()
 
 
 # Comment model
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     blog_id = models.ForeignKey(Blog, on_delete=CASCADE)
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     content = models.TextField()
@@ -73,7 +77,7 @@ class Favorite(models.Model):
         unique_together = (("store_id", "user_id"),)
 
     store_id = models.ForeignKey(Store, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, primary_key=True, on_delete=CASCADE)
+    user_id = models.ForeignKey(User, on_delete=CASCADE)
     def __str__(self):
         return self.title
 

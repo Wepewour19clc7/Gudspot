@@ -14,8 +14,12 @@ urlpatterns = [
     path('api/getblogs',GetBlog.as_view(),name='getblogs'),
     path('api/storelist',StoreList.as_view(),name='store-list'),
     path('api/storepage',StorePageView.as_view(),name='storepages'),
+    path('api/createcomment',CreateComment.as_view(),name='createcomment'),
     path('api/followstore',FollowStore.as_view(),name='followstore'),
     path('api/user-info',UserInformationView.as_view(),name='userinfo'),
     path('api/user-info/edit',ChangeUserInfo.as_view(),name='userinfo-edit'),
-
+    path('api/review',CreateReviewView.as_view(),name='create-review'),
+    path('api/get-review',GetReviewView.as_view(),name='get-review'),
+    path('api/get-user-follow', GetUserFollows.as_view(), name='get-user-follow'),
+    path('api/storedashboard',StoreDashboard.as_view(),name='store-dashboard'),
 ]

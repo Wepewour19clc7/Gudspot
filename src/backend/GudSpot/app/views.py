@@ -1,3 +1,5 @@
+from re import search
+from django.db import reset_queries
 from rest_framework import generics, permissions, serializers, status
 from rest_framework import response
 from rest_framework.response import Response
@@ -118,8 +120,6 @@ class CreateStoreView(generics.GenericAPIView):
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         data = Blog.objects.filter(store_id_id=request.data['store_id'])
-        with open("file.txt","w") as f:
-            f.write(str(type(data[0])))
         if data != None:
             response = dict()
             response['data'] = data.values()
@@ -135,18 +135,18 @@ class StoreList(generics.ListCreateAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
     name = 'store-list'
-    
+    pagination_class = PageNumberPagination
     search_fields = (
         '^store_name',
         '^store_address',
     )
 
 class StorePageView(generics.GenericAPIView):
-    serializer_class = StorePageSerializer
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            store_id = request.data['store_id']
+        id = request.GET.get('store_id',None)
+
+        if id != None:
+            store_id = id
             store_data = model_to_dict(Store.objects.get(id=store_id))
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
             followers = Follow.objects.filter(store_id=store_id).count()
@@ -168,6 +168,24 @@ class UserInformationView(generics.GenericAPIView):
             response['code'] = status.HTTP_200_OK
             return Response(response,status=status.HTTP_200_OK)
         else:
+            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+
+#Comment
+class CreateComment(generics.GenericAPIView):
+    serializer_class = CommentSerializer
+    model = Comment
+    permissions_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            obj = serializer.save()
+            data = Comment.objects.get(id=obj.id)
+            response = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '201'
+            return Response(response,status=status.HTTP_201_CREATED)
+        else: 
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         
 
@@ -225,4 +243,55 @@ class ChangeUserInfo(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
+class CreateReviewView(generics.GenericAPIView):
+    serializer_class = ReviewSerializer
+    model = Review
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            obj = serializer.save()
+            response = dict()
+            data = Review.objects.get(user_id=obj.user_id,store_id=obj.store_id)
+            response['data'] = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '200'
+            return Response(response,status=status.HTTP_200_OK)
+        else: 
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetReviewView(generics.GenericAPIView):
+    serializer_class = GetReviewSerializer
+    model = Review
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            data = Review.objects.filter(store_id=serializer.data['store_id'])
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetUserFollows(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        data = Review.objects.filter(user_id=request.data['user_id'])
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class StoreDashboard(generics.ListCreateAPIView):
+    queryset = Store.objects.all().order_by('-create_date')
+    serializer_class = StoreSerializer
+    name = 'store-dashboard'
+    pagination_class = PageNumberPagination
+    
