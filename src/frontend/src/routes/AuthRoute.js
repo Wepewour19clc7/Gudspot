@@ -1,11 +1,12 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
+import { getToken } from '../auth'
 
 const AuthRoute = props => {
-  const userIsLogged = false
+  const isLogged = !!getToken()
 
   return (
-    <Route {...props}>{userIsLogged ? props.children : <Redirect to={"/"}/>}</Route>
+    <Route {...props}>{isLogged ? props.children : <Redirect to={"/"}/>}</Route>
   )
 }
 

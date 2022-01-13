@@ -3,6 +3,10 @@ import { ChevronLeftIcon, StarIcon } from '@heroicons/react/solid'
 import Gallery from '../../components/Gallery'
 import Blog from '../../components/Blog'
 import { Tabs } from 'antd'
+import { RegisterFormModel } from '../../containers/RegisterForm/RegisterForm.model'
+import { useHistory } from 'react-router-dom'
+import { StoreOwnerModel } from './StoreOwner.model'
+import { useEffect, useState } from 'react'
 
 const { TabPane } = Tabs
 
@@ -73,6 +77,17 @@ function classNames (...classes) {
 }
 
 export default function StoreOwner () {
+  const storeOwnerModel = new StoreOwnerModel()
+  const history = useHistory()
+  const store_id = history.location.pathname.split('/')[2]
+
+  const [store, setStore] = useState({})
+  useEffect(() => {
+    storeOwnerModel.getStore({store_id}).then((res) => {
+      console.log('res data', res.data)
+      setStore(res.data)
+    })
+  }, [])
   return (
     <div className='relative h-screen flex overflow-hidden bg-white'>
       <div className='flex flex-col min-w-0 flex-1 overflow-hidden'>
@@ -107,13 +122,6 @@ export default function StoreOwner () {
                       </div>
                       <div
                         className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
-                        <button
-                          type='button'
-                          className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
-                        >
-                          <HeartIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
-                          <span>Add to favourite</span>
-                        </button>
                         <button
                           type='button'
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'

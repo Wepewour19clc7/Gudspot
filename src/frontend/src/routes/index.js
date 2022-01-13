@@ -14,7 +14,7 @@ const ViewRoutes = [
     component: () => <Main />,
   },
   {
-    path: '/store',
+    path: '/store/:id',
     exact: true,
     component: () => <StoreOwner />,
   },

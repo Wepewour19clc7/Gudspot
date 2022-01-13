@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 const navigation = [
   { name: 'Home', href: '/', icon: HomeIcon, current: true },
   { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false, auth: true },
-  { name: 'My Account', href: '/account', icon: UserGroupIcon, current: false, auth: true },
+  { name: 'My Profile', href: '/profile', icon: UserGroupIcon, current: false, auth: true },
   { name: 'About Us', href: '/about-us', icon: UserGroupIcon, current: false },
 ]
 

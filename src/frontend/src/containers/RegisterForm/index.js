@@ -10,7 +10,8 @@ const RegisterForm = () => {
   const sendForm = async (values) => {
     const result = await registerFormModel.register(values)
 
-    if (result.success) {
+    console.log('result ass', result)
+    if (result.status === 201) {
       toast.success('Create account successfully')
       history.push('/login')
     } else {
@@ -20,7 +21,7 @@ const RegisterForm = () => {
   return (
     <div className='w-full md:max-w-xl bg-white shadow-lg rounded px-8 pt-8 pb-6'>
       <Formik
-        initialValues={{ email: '', username: '', password: '', role: 'user' }}
+        initialValues={{ email: '', username: '', password: '', type: 2 }}
         validate={values => {
           const errors = {}
           if (!values.email) {
@@ -31,6 +32,7 @@ const RegisterForm = () => {
           return errors
         }}
         onSubmit={async (values, { setSubmitting }) => {
+          console.log(values)
           await sendForm(values)
           setSubmitting(false)
         }}
@@ -81,16 +83,17 @@ const RegisterForm = () => {
             </div>
           </div>
           <div className='mb-3'>
-            <label htmlFor='password' className='block text-sm font-medium text-gray-700'>
+            <label htmlFor='type' className='block text-sm font-medium text-gray-700'>
               Role
             </label>
             <div className='mt-1'>
-              <Field name='role' as='select'
-                     defaultValue={'user'}
+              <Field name='type' as='select'
+                     defaultValue={2}
                      onChange={handleChange}
                      className='block w-full border-gray-300 mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'>
-                <option value={'user'}>Base User</option>
-                <option value={'owner'}>Owner Store</option>
+                <option value={2}>Base User</option>
+                <option value={0}>Admin</option>
+                <option value={1}>Owner Store</option>
               </Field>
             </div>
           </div>

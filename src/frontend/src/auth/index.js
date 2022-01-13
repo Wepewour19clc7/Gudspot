@@ -14,6 +14,14 @@ export const getToken = () => {
   return null
 }
 
+export const getFullToken = () => {
+  const tokenJson = localStorage.getItem('token')
+  if (tokenJson) {
+    return JSON.parse(tokenJson)
+  }
+  return null
+}
+
 // delete token
 export const deleteToken = () => {
   localStorage.removeItem('token')
