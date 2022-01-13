@@ -1,3 +1,4 @@
+from re import search
 from django.db import reset_queries
 from rest_framework import generics, permissions, serializers, status
 from rest_framework import response
@@ -181,9 +182,11 @@ class CreateComment(generics.GenericAPIView):
         if serializer.is_valid():
             obj = serializer.save()
             data = Comment.objects.get(id=obj.id)
-            return Response(model_to_dict(data))
+            response = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '201'
+            return Response(response,status=status.HTTP_201_CREATED)
         else: 
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         
 
@@ -250,6 +253,7 @@ class CreateReviewView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             obj = serializer.save()
+            response = dict()
             data = Review.objects.get(user_id=obj.user_id,store_id=obj.store_id)
             response['data'] = model_to_dict(data)
             response['status'] = 'success'
@@ -309,3 +313,10 @@ class GetTopFollowStore(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class StoreDashboard(generics.ListCreateAPIView):
+    queryset = Store.objects.all().order_by('-create_date')
+    serializer_class = StoreSerializer
+    name = 'store-dashboard'
+    pagination_class = PageNumberPagination
+    

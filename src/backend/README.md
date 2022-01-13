@@ -89,6 +89,64 @@
 }
 ```
 
+## Get user info
+
+- API link: `<hostname>/api/get-review`
+- Method: `GET`
+
+- Body:
+
+```
+{
+    "user_id": <id>
+}
+```
+
+- Response: example
+
+```
+{
+    "user_id": 1,
+    "user_type": 1,
+    "username": "test",
+    "avatar": "{\"1\":\"123123123\"}",
+    "description": "afhajgaegbkahbgkl",
+    "status": "success",
+    "code": 200
+}
+```
+
+## Change user information
+
+- API link: `<hostname>/api/user-info/edit`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
+```
+{
+    "user_id": <user id>
+    "store_id": <store id>
+    "score": <score> (1 - 5)
+    "description": <text>
+}
+```
+
+- Response: Example
+
+```
+{
+    "user_id": 1,
+    "user_type": 1,
+    "username": "test1ver3",
+    "avatar": "{\"3\":\"test3\"}",
+    "description": "fk u 3",
+    "status": "success",
+    "code": 200
+}
+```
+
 # Store
 
 ## Search Store (conda install -c conda-forge django-filter)
@@ -110,6 +168,33 @@ Return list of store if keyword is in store name or store address
         {
             "owner_id": 1,
             "store_name": "Test1",
+            "store_address": "327NVC4",
+            "img_url": {
+                "1": "sfdfsd"
+            },
+            "description": "Fck this sh!t"
+        }
+    ]
+}
+```
+
+# Store
+
+## Store Dashboard by Create-date
+
+- API link: `<hostname>/api/storedashboard
+- Method: `GET`
+- Response: Example:
+
+```
+{
+    "count": 3,
+    "next": "http://127.0.0.1:8000/api/storedashboard?page=2",
+    "previous": null,
+    "results": [
+        {
+            "owner_id": 1,
+            "store_name": "Test3",
             "store_address": "327NVC4",
             "img_url": {
                 "1": "sfdfsd"
@@ -218,12 +303,73 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-* Response: Example
+- Response: Example
+
 ```
 {
     "Message": "Store Unfollowed"/ "Store Followed"
     "status": "success"
     "code": 201
+}
+```
+
+## Get blogs of a store
+
+- API link: `<hostname>/api/getblogs`
+- Method: `GET`
+
+* Body:
+
+```
+{
+    "store_id": <store_id>
+}
+```
+
+- Response:
+
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "user_id_id": 1,
+            "store_id_id": 1,
+            "title": "",
+            "content": "Ngon lam ???222",
+            "img_url": {
+                "2": "1223221"
+            },
+            "posted_date": "2022-01-13T07:55:39.529445Z",
+            "activated": false
+        },
+        {
+            "id": 2,
+            "user_id_id": 1,
+            "store_id_id": 1,
+            "title": "Blog2-1",
+            "content": "Ngon lam ???222",
+            "img_url": {
+                "2": "1223221"
+            },
+            "posted_date": "2022-01-13T07:56:41.990592Z",
+            "activated": false
+        },
+        {
+            "id": 3,
+            "user_id_id": 1,
+            "store_id_id": 1,
+            "title": "Blog2-1",
+            "content": "Ngon lam ???222",
+            "img_url": {
+                "2": "1223221"
+            },
+            "posted_date": "2022-01-13T08:10:25.313524Z",
+            "activated": false
+        }
+    ],
+    "status": "success",
+    "code": 200
 }
 ```
 
@@ -245,34 +391,8 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-* Response: Example
-```
-{
-    "user_id": 1,
-    "user_type": 1,
-    "username": "test1ver3",
-    "avatar": "{\"3\":\"test3\"}",
-    "description": "fk u 3",
-    "status": "success",
-    "code": 200
-}
-```
-# Review
-* API link: ```<hostname>/api/user-info/edit```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
-```
-{   
+- Response: Example
 
-    "user_id": <user id>
-    "store_id": <store id>
-    "score": <score> (1 - 5)
-    "description": <text>
-}
-```
-* Response: Example
 ```
 {
     "user_id": 1,
@@ -282,5 +402,99 @@ Return list of store if keyword is in store name or store address
     "description": "fk u 3",
     "status": "success",
     "code": 200
+}
+```
+
+# Review
+
+## New review
+
+- API link: `<hostname>/api/review`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
+```
+{
+    "user_id" : <id>,
+    "store_id" : <store_id>,
+    "score" : <int> (1-5)
+    "description" : <text>
+}
+```
+
+- Response: example
+
+```
+{
+    "data": {
+        "id": 3,
+        "store_id": 3,
+        "user_id": 1,
+        "score": 5,
+        "description": "ngon"
+    },
+    "status": "success",
+    "code": "200"
+}
+```
+
+## Get review of a store
+
+- API link: `<hostname>/api/get-review`
+- Method: `GET`
+- Body:
+
+```
+{
+    "store_id": <store id>
+}
+```
+
+- Response:
+
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "store_id_id": 1,
+            "user_id_id": 1,
+            "score": 5,
+            "description": "ngon"
+        }
+    ],
+    "status": "success",
+    "code": 200
+}
+```
+
+# Create comment
+
+- API link: `<hostname>/api/createcomment`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
+```
+{
+    "user_id": <user id>,
+    "blog_id": <store id>,
+    "content": <text>
+}
+```
+
+- Response: example
+
+```
+{
+    "id": 3,
+    "blog_id": 1,
+    "user_id": 1,
+    "content": "adfhsdfb",
+    "status": "success",
+    "code": "201"
 }
 ```
