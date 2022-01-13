@@ -161,14 +161,17 @@ class StorePageView(generics.GenericAPIView):
 
 class UserInformationView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        data = user_information.objects.get(user_id=request.data['user_id'])
+        id = request.GET.get('user_id')
+        if id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = user_information.objects.get(user_id=id)
         if data != None:
             response = model_to_dict(data)
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             return Response(response,status=status.HTTP_200_OK)
         else:
-            return Response({"status": ["Bad request"]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 #Comment
 class CreateComment(generics.GenericAPIView):
@@ -225,6 +228,8 @@ class ChangeUserInfo(generics.GenericAPIView):
         username = request.POST['username']
         avatar = request.POST['avatar']
         description = request.POST['description']
+        name = request.POST['name']
+        address = request.POST['address']
         data = user_information.objects.filter(
             user_id_id = user_id,
         )
@@ -234,7 +239,9 @@ class ChangeUserInfo(generics.GenericAPIView):
             obj = user_information.objects.update(
                 username = username,
                 avatar = avatar,
-                description = description
+                description = description,
+                name = name,
+                address = address
             )
             obj = user_information.objects.get(user_id_id = user_id)
             response = model_to_dict(obj)

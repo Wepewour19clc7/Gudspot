@@ -21,6 +21,9 @@ class user_information(models.Model):
     username = models.CharField(max_length=100)
     avatar = models.JSONField()
     description = TextField()
+    address = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
+
 
 # Store model
 class Store(models.Model):
