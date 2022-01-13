@@ -1,6 +1,7 @@
 import React from 'react'
 import { StarIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
+import { v4 as uuidv4 } from 'uuid'
 
 const stores = [
   {
@@ -67,7 +68,7 @@ const RandomStores = () => {
 
         <div className='-mx-px border-l border-gray-200 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4'>
           {stores.map((store) => (
-            <div key={store.id} className='group relative p-4 border-r border-b border-gray-200 sm:p-6'>
+            <div key={uuidv4()} className='group relative p-4 border-r border-b border-gray-200 sm:p-6'>
               <div className='rounded-lg overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75'>
                 <img
                   src={store.imageSrc}
