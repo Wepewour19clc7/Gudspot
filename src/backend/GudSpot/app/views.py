@@ -141,11 +141,11 @@ class StoreList(generics.ListCreateAPIView):
     )
 
 class StorePageView(generics.GenericAPIView):
-    serializer_class = StorePageSerializer
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            store_id = request.data['store_id']
+        id = request.GET.get('store_id',None)
+
+        if id != None:
+            store_id = id
             store_data = model_to_dict(Store.objects.get(id=store_id))
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
             followers = Follow.objects.filter(store_id=store_id).count()

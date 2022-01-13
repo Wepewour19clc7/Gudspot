@@ -170,7 +170,7 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-## Get store page
+## Get store page list
 
 - API link: `<hostname>/api/storelist?search=<keyword>`
 - Method: `GET`
@@ -185,7 +185,35 @@ Return list of store if keyword is in store name or store address
     "store_id": <id>
 }
 ```
+## Get store page
+- API link: `<hostname>/api/store_id=<id>`
+- Method: `GET`
 
+```
+{
+    "status": "success",
+    "code": 200,
+    "store_data": {
+        "id": 1,
+        "owner_id": 1,
+        "store_name": "1231244",
+        "description": "adfhsghba",
+        "store_address": "dfabadfb",
+        "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+        "cover_img": {
+            "1": "123"
+        },
+        "follow_counts": 0
+    },
+    "owner_data": {
+        "user_id": 1,
+        "user_type": 1,
+        "username": "test",
+        "avatar": "{\"1\":\"123123123\"}",
+        "description": "afhajgaegbkahbgkl"
+    }
+}
+```
 - Repspose
 
 ## Create store
