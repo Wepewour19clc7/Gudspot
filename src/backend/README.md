@@ -201,7 +201,8 @@ Return list of store if keyword is in store name or store address
     "owner_id": <id>,
     "store_name": <name>,
     "store_address": <address>,
-    "img_url": <json array>,
+    "cover_img": <json array>,
+    "avatar": <url>,
     "description": <text>
 }
 ```
@@ -210,11 +211,15 @@ Return list of store if keyword is in store name or store address
 
 ```
 {
-    "owner_id": <id>,
-    "store_name": <name>,
-    "store_address": <address>,
-    "img_url": <json array>,
-    "description": <text>
+    "id": 1,
+    "owner_id": 1,
+    "store_name": "1231244",
+    "description": "adfhsghba",
+    "store_address": "dfabadfb",
+    "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+    "cover_img": {
+        "1": "123"
+    }
 }
 ```
 
