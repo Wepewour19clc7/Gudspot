@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RandomStores from '../../containers/RandomStores'
 import HeaderApp from '../../components/HeaderApp'
 import FooterApp from '../../components/FooterApp'
@@ -6,7 +6,6 @@ import { getToken } from '../../auth'
 
 const Home = () => {
   const isLogged = !!getToken()
-
   return (
     <main className='overflow-y-auto w-full h-full focus:outline-none px-5'>
       <HeaderApp isLogged={isLogged}/>

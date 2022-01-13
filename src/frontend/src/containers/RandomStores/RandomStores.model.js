@@ -1,6 +1,6 @@
 import StoreService from '../../services/Store'
 
-export class StoreOwnerModel {
+export class GetAllStores {
   constructor () {
     this.storeService = new StoreService()
   }

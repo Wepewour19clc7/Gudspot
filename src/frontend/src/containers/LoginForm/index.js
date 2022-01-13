@@ -63,7 +63,7 @@ const LoginForm = () => {
                 onBlur={handleBlur}
                 value={values.password}
                 className={'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'}
-                id='password' placeholder='********' required minLength='8' />
+                id='password' placeholder='********' required minLength='4' />
             </div>
             <div className='py-3 bg-gray-50 text-right flex flex-row justify-between'>
               <button
