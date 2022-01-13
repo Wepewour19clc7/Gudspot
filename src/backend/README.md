@@ -1,8 +1,11 @@
 # Account session
+
 ## Register
-* API link: ```<hostname>/api/register``` 
-* Method: ```POST```
-* Body:
+
+- API link: `<hostname>/api/register`
+- Method: `POST`
+- Body:
+
 ```
 {
     "username": <username>,
@@ -25,9 +28,11 @@
 <br>
 
 ## Login
-* API link: ```<hostname>/api/login```
-* Method: ```POST```
-* Header:
+
+- API link: `<hostname>/api/login`
+- Method: `POST`
+- Header:
+
 ```
 {
     "username": <username>,
@@ -48,9 +53,11 @@
 ```
 
 ## Logout
-* API link: ```<hostname>/api/logout```
-* Method: ```POST```
-* Header: 
+
+- API link: `<hostname>/api/logout`
+- Method: `POST`
+- Header:
+
 ```
 "Authorization": Token <token>
 ```
@@ -58,11 +65,13 @@
 - Response: None
 
 ## Change password
-* API link: ```<hostname>/api/change-password```
-* Method: ```PUT```
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- API link: `<hostname>/api/change-password`
+- Method: `PUT`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
 {
     "old_password": <old password>,
@@ -79,72 +88,64 @@
     "message": "Password updated successfully",
 }
 ```
+
 # Store
+
 ## Search Store (conda install -c conda-forge django-filter)
+
 Return list of store if keyword is in store name or store address
 
-- API link: `<hostname>/api/storelist?search=<keyword>`
-- Method: `GET`
-- Response: Example:
+- Update: add pagination
+
+* API link: `<hostname>/api/storelist?search=<keyword>&page=<page_number>`
+* Method: `GET`
+* Response: Example:
 
 ```
-[
-    {
-        "owner_id": 6,
-        "store_name": "TestStore1",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
+{
+    "count": 3,
+    "next": "http://127.0.0.1:8000/api/storelist?page=2&search=test",
+    "previous": null,
+    "results": [
+        {
+            "owner_id": 1,
+            "store_name": "Test1",
+            "store_address": "327NVC4",
+            "img_url": {
+                "1": "sfdfsd"
+            },
+            "description": "Fck this sh!t"
         }
-    },
-    {
-        "owner_id": 6,
-        "store_name": "TestStore2",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
-        }
-    },
-    {
-        "owner_id": 6,
-        "store_name": "TestStore3",
-        "store_address": "247NVS",
-        "img_url": {
-            "1": "sdsd"
-        }
-    }
-]
+    ]
+}
 ```
 
 ## Get store page
+
 - API link: `<hostname>/api/storelist?search=<keyword>`
 - Method: `GET`
-* Header 
-```Authorization": Token <token>```
+
+* Header
+  `Authorization": Token <token>`
+
 - Body:
+
 ```
 {
     "store_id": <id>
 }
 ```
-* Repspose
+
+- Repspose
 
 ## Create store
-* API link: ```<hostname>/api/create-store```
-* Method: ```POST```
-* Header:
-```Authorization": Token <token>```
-* Body:
-```
-{   
-    "owner_id": <id>,
-    "store_name": <name>,
-    "store_address": <address>,
-    "img_url": <json array>,
-    "description": <text>
-}
-```
-* Response:
+
+- API link: `<hostname>/api/create-store`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
 {
     "owner_id": <id>,
@@ -154,15 +155,11 @@ Return list of store if keyword is in store name or store address
     "description": <text>
 }
 ```
-# Blogs
-## Write Blogs
-* API link: ```<hostname>/api/create-store```
-* Method: ```POST```
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- Response:
+
 ```
-{   
+{
     "owner_id": <id>,
     "store_name": <name>,
     "store_address": <address>,
@@ -170,7 +167,29 @@ Return list of store if keyword is in store name or store address
     "description": <text>
 }
 ```
-* Response:
+
+# Blogs
+
+## Write Blogs
+
+- API link: `<hostname>/api/create-store`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
+```
+{
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
+```
+
+- Response:
+
 ```
 {
     "owner_id": <id>,
@@ -183,18 +202,21 @@ Return list of store if keyword is in store name or store address
 
 ## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
 
-* API link: ```<hostname>/api/followstore```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
+- API link: `<hostname>/api/followstore`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
     "store_id": <store id>
     "user_id": <user id>
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "Message": "Store Unfollowed"/ "Store Followed"
@@ -203,14 +225,16 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-## Change user information: 
-* API link: ```<hostname>/api/user-info/edit```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
+## Change user information:
+
+- API link: `<hostname>/api/user-info/edit`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
 
     "user_id": <store id>
     "username": <store id>
@@ -218,7 +242,9 @@ Return list of store if keyword is in store name or store address
     "description": <user id>
 }
 ```
-* Response:Example
+
+- Response:Example
+
 ```
 {
     "user_id": 1,
