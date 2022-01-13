@@ -20,5 +20,6 @@ urlpatterns = [
     path('api/user-info/edit',ChangeUserInfo.as_view(),name='userinfo-edit'),
     path('api/review',CreateReviewView.as_view(),name='create-review'),
     path('api/get-review',GetReviewView.as_view(),name='get-review'),
+    path('api/get-top-follow-store', GetTopFollowStore.as_view(),name='gettopfollowstore')
 
 ]

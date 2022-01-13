@@ -16,6 +16,7 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.forms.models import model_to_dict
+from django.db.models import Count
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -266,6 +267,43 @@ class GetReviewView(generics.GenericAPIView):
             data = Review.objects.filter(store_id=serializer.data['store_id'])
             response = dict()
             response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetTopFollowStore(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        store = Store.objects.all().values_list('id', flat = True)
+        followers = []
+        # Get each store followers
+        for id in store:
+            store_follow = []
+            store_follow.append(id)
+            store_follow.append(Follow.objects.filter(store_id=id).count())
+            followers.append(store_follow)
+        # Bubble sort because i'm stupid
+        for j in range(len(followers)-1):
+            for x in range(j,len(followers)):
+                if followers[j][1] < followers[x][1]:
+                    tmp = followers[j]
+                    followers[j] = followers[x]
+                    followers[x] = tmp
+        # Get store data
+        store_datas = []
+        for obj in followers:
+            st_fl = []
+            store_data = Store.objects.get(id=obj[0])
+            st_fl.append(model_to_dict(store_data))
+            st_fl.append(obj[1])
+            store_datas.append(st_fl)
+        if store_datas != None:
+            response = dict()
+            if len(store_datas) < 10:
+                response['data'] = store_datas
+            else:
+                response['data'] = store_datas[:10]
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             return Response(response,status=status.HTTP_200_OK)
