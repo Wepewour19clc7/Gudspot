@@ -253,30 +253,6 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
-
-- API link: `<hostname>/api/followstore`
-- Method: `POST`
-- Header:
-  `Authorization": Token <token>`
-- Body:
-
-```
-{
-    "store_id": <store id>
-    "user_id": <user id>
-}
-```
-
-* Response: Example
-```
-{
-    "Message": "Store Unfollowed"/ "Store Followed"
-    "status": "success"
-    "code": 201
-}
-```
-
 ## Get blogs of a store
 
 - API link: `<hostname>/api/getblogs`
@@ -332,10 +308,10 @@ Return list of store if keyword is in store name or store address
     "code": 200
 }
 ```
+# Follow
+## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
 
-## Change user information:
-
-- API link: `<hostname>/api/user-info/edit`
+- API link: `<hostname>/api/followstore`
 - Method: `POST`
 - Header:
   `Authorization": Token <token>`
@@ -343,22 +319,56 @@ Return list of store if keyword is in store name or store address
 
 ```
 {
-
-    "user_id": <store id>
-    "username": <store id>
-    "avatar": <store id>
-    "description": <user id>
+    "store_id": <store id>
+    "user_id": <user id>
 }
 ```
 
 * Response: Example
 ```
 {
-    "user_id": 1,
-    "user_type": 1,
-    "username": "test1ver3",
-    "avatar": "{\"3\":\"test3\"}",
-    "description": "fk u 3",
+    "Message": "Store Unfollowed"/ "Store Followed"
+    "status": "success"
+    "code": 201
+}
+```
+## Get user follow list
+- API link: `<hostname>/api/get-user-follow`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+```
+{
+    "user_id": <user id>
+}
+```
+- Response: example
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "store_id_id": 1,
+            "user_id_id": 1,
+            "score": 5,
+            "description": "ngon"
+        },
+        {
+            "id": 2,
+            "store_id_id": 2,
+            "user_id_id": 1,
+            "score": 5,
+            "description": "ngon"
+        },
+        {
+            "id": 3,
+            "store_id_id": 3,
+            "user_id_id": 1,
+            "score": 5,
+            "description": "ngon"
+        }
+    ],
     "status": "success",
     "code": 200
 }
@@ -419,7 +429,8 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-# Create comment
+# Comment
+## Create comment
 - API link: `<hostname>/api/createcomment`
 - Method: `POST`
 - Header:
@@ -443,3 +454,5 @@ Return list of store if keyword is in store name or store address
     "code": "201"
 }
 ```
+
+## Get comment of a blog
