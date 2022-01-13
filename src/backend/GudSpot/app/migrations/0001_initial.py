@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('content', models.TextField()),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('blog_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.blog')),

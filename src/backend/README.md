@@ -1,8 +1,11 @@
 # Account session
+
 ## Register
-* API link: ```<hostname>/api/register``` 
-* Method: ```POST```
-* Body:
+
+- API link: `<hostname>/api/register`
+- Method: `POST`
+- Body:
+
 ```
 {
     "username": <username>,
@@ -25,9 +28,11 @@
 <br>
 
 ## Login
-* API link: ```<hostname>/api/login```
-* Method: ```POST```
-* Header:
+
+- API link: `<hostname>/api/login`
+- Method: `POST`
+- Header:
+
 ```
 {
     "username": <username>,
@@ -48,9 +53,11 @@
 ```
 
 ## Logout
-* API link: ```<hostname>/api/logout```
-* Method: ```POST```
-* Header: 
+
+- API link: `<hostname>/api/logout`
+- Method: `POST`
+- Header:
+
 ```
 "Authorization": Token <token>
 ```
@@ -58,11 +65,13 @@
 - Response: None
 
 ## Change password
-* API link: ```<hostname>/api/change-password```
-* Method: ```PUT```
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- API link: `<hostname>/api/change-password`
+- Method: `PUT`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
 {
     "old_password": <old password>,
@@ -79,8 +88,11 @@
     "message": "Password updated successfully",
 }
 ```
+
 # Store
+
 ## Search Store (conda install -c conda-forge django-filter)
+
 Return list of store if keyword is in store name or store address
 
 - API link: `<hostname>/api/storelist?search=<keyword>`
@@ -117,34 +129,31 @@ Return list of store if keyword is in store name or store address
 ```
 
 ## Get store page
+
 - API link: `<hostname>/api/storelist?search=<keyword>`
 - Method: `GET`
-* Header 
-```Authorization": Token <token>```
+
+* Header
+  `Authorization": Token <token>`
+
 - Body:
+
 ```
 {
     "store_id": <id>
 }
 ```
-* Repspose
+
+- Repspose
 
 ## Create store
-* API link: ```<hostname>/api/create-store```
-* Method: ```POST```
-* Header:
-```Authorization": Token <token>```
-* Body:
-```
-{   
-    "owner_id": <id>,
-    "store_name": <name>,
-    "store_address": <address>,
-    "img_url": <json array>,
-    "description": <text>
-}
-```
-* Response:
+
+- API link: `<hostname>/api/create-store`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
 {
     "owner_id": <id>,
@@ -154,46 +163,69 @@ Return list of store if keyword is in store name or store address
     "description": <text>
 }
 ```
+
+- Response:
+
+```
+{
+    "owner_id": <id>,
+    "store_name": <name>,
+    "store_address": <address>,
+    "img_url": <json array>,
+    "description": <text>
+}
+```
+
 # Blogs
+
 ## Write Blogs
-* API link: ```<hostname>/api/create-store```
-* Method: ```POST```
-* Header:
-```Authorization": Token <token>```
-* Body:
+
+- API link: `<hostname>/api/create-store`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
     "owner_id": <id>,
     "store_name": <name>,
+    "title": <title>,
     "store_address": <address>,
     "img_url": <json array>,
     "description": <text>
 }
 ```
-* Response:
+
+- Response:
+
 ```
 {
     "owner_id": <id>,
     "store_name": <name>,
+    "title": <title>,
     "store_address": <address>,
     "img_url": <json array>,
     "description": <text>
+    "activated": <default= False>
 }
 ```
 
 ## Follow/Unfollow: If already has follow obj: Follow, else: Unfollow
 
-* API link: ```<hostname>/api/followstore```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
+- API link: `<hostname>/api/followstore`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
     "store_id": <store id>
     "user_id": <user id>
 }
 ```
+
 * Response: Example
 ```
 {
@@ -203,14 +235,16 @@ Return list of store if keyword is in store name or store address
 }
 ```
 
-## Change user information: 
-* API link: ```<hostname>/api/user-info/edit```
-* Method: ```POST``` 
-* Header:
-```Authorization": Token <token>```
-* Body:
+## Change user information:
+
+- API link: `<hostname>/api/user-info/edit`
+- Method: `POST`
+- Header:
+  `Authorization": Token <token>`
+- Body:
+
 ```
-{   
+{
 
     "user_id": <store id>
     "username": <store id>
@@ -218,6 +252,7 @@ Return list of store if keyword is in store name or store address
     "description": <user id>
 }
 ```
+
 * Response: Example
 ```
 {

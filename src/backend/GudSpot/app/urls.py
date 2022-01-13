@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/getblogs',GetBlog.as_view(),name='getblogs'),
     path('api/storelist',StoreList.as_view(),name='store-list'),
     path('api/storepage',StorePageView.as_view(),name='storepages'),
+    path('api/createcomment',CreateComment.as_view(),name='createcomment'),
     path('api/followstore',FollowStore.as_view(),name='followstore'),
     path('api/user-info',UserInformationView.as_view(),name='userinfo'),
     path('api/user-info/edit',ChangeUserInfo.as_view(),name='userinfo-edit'),

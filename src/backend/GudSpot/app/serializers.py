@@ -54,10 +54,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id','content')
+        fields = ('user_id','blog_id','content')
 
     def create(self,validated_data):
-        return Review.objects.create(**validated_data)
+        return Comment.objects.create(**validated_data)
     
 #Blog Serializer
 class BlogSerializer(serializers.ModelSerializer):

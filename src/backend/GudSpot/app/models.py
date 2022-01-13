@@ -63,6 +63,7 @@ class Review(models.Model):
 
 # Comment model
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     blog_id = models.ForeignKey(Blog, on_delete=CASCADE)
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     content = models.TextField()
