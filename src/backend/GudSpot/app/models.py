@@ -29,7 +29,8 @@ class Store(models.Model):
     description = models.TextField()
     store_address = models.CharField(max_length=200)
     create_date = models.DateTimeField(auto_now_add=True)
-    img_url = models.JSONField()
+    avatar = models.URLField()
+    cover_img = models.JSONField()
     def __str__(self):
         return self.store_name
 
