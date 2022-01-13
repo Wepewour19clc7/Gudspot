@@ -234,7 +234,10 @@ class CreateReviewView(generics.GenericAPIView):
         if serializer.is_valid():
             obj = serializer.save()
             data = Review.objects.get(user_id=obj.user_id,store_id=obj.store_id)
-            return Response(model_to_dict(data),status=status.HTTP_200_OK)
+            response['data'] = model_to_dict(data)
+            response['status'] = 'success'
+            response['code'] = '200'
+            return Response(response,status=status.HTTP_200_OK)
         else: 
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
