@@ -361,7 +361,11 @@ class ActivateBlog(generics.GenericAPIView):
             obj = data.update(activated = True)
             obj = Blog.objects.get(id = blog_id)
             response = model_to_dict(obj)
-
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 class GetAllBlogsActivatedView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         data = Blog.objects.filter(activated=True)
