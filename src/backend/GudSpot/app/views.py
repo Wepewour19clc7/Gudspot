@@ -227,7 +227,6 @@ class ChangeUserInfo(generics.GenericAPIView):
     #POST method
     def post(self, request, *args, **kwargs):
         user_id = request.POST['user_id']
-        username = request.POST['username']
         avatar = request.POST['avatar']
         description = request.POST['description']
         name = request.POST['name']
@@ -239,7 +238,6 @@ class ChangeUserInfo(generics.GenericAPIView):
         #Check if data exists 
         if data.exists():
             obj = data.update(
-                username = username,
                 avatar = avatar,
                 description = description,
                 name = name,
