@@ -337,4 +337,15 @@ class StoreDashboard(generics.ListCreateAPIView):
     serializer_class = StoreSerializer
     name = 'store-dashboard'
     pagination_class = PageNumberPagination
-    
+
+class GetAllBlogsActivatedView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        data = Blog.objects.filter(activated=True)
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
