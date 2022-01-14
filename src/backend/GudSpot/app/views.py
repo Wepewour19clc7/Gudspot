@@ -276,12 +276,12 @@ class GetReviewView(generics.GenericAPIView):
         if serializer.is_valid():
             data = Review.objects.filter(store_id=serializer.data['store_id'])
             t = data.values_list('score', flat = True)
-            avg_follows = sum(t)/len(t)
+            avg_review = sum(t)/len(t)
             response = dict()
             response['data'] = data.values()
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
-            response['avg_scores'] = avg_follows
+            response['avg_scores'] = avg_review
             response['total'] = len(t)
             return Response(response,status=status.HTTP_200_OK)
         else:
@@ -305,21 +305,29 @@ class GetTopFollowStore(generics.GenericAPIView):
             store_follow.append(id)
             store_follow.append(Follow.objects.filter(store_id=id).count())
             followers.append(store_follow)
-        # Bubble sort because i'm stupid
-        for j in range(len(followers)-1):
-            for x in range(j,len(followers)):
-                if followers[j][1] < followers[x][1]:
-                    tmp = followers[j]
-                    followers[j] = followers[x]
-                    followers[x] = tmp
+
+        followers = sorted(followers,key=lambda x:x[1],reverse=True)
+
         # Get store data
         store_datas = []
         for obj in followers:
             st_fl = []
             store_data = Store.objects.get(id=obj[0])
-            st_fl.append(model_to_dict(store_data))
-            st_fl.append(obj[1])
+            t = model_to_dict(store_data)
+            reviews = Review.objects.filter(store_id=store_data.id)
+            review_ar = reviews.values_list('score', flat = True)
+            review_counts = reviews.count()
+            if review_counts == 0 :
+                avg_review = 0
+            else: 
+                avg_review = sum(review_ar)/review_counts
+            review_counts = reviews.count()
+            t['total_review'] = review_counts
+            t['total_followers'] = obj[1]
+            t['avg_scores'] = avg_review
+            st_fl.append(t)
             store_datas.append(st_fl)
+
         if store_datas != None:
             response = dict()
             if len(store_datas) < 10:
