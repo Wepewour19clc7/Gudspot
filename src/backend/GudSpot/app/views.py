@@ -276,10 +276,13 @@ class GetReviewView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             data = Review.objects.filter(store_id=serializer.data['store_id'])
+            t = data.values_list('score', flat = True)
+            avg_follows = sum(t)/len(t)
             response = dict()
             response['data'] = data.values()
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
+            response['avg_scores'] = avg_follows
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
@@ -291,6 +294,7 @@ class GetUserFollows(generics.GenericAPIView):
         if data != None:
             response = dict()
             response['data'] = data.values()
+
 class GetTopFollowStore(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         store = Store.objects.all().values_list('id', flat = True)
@@ -347,6 +351,13 @@ class ActivateBlog(generics.GenericAPIView):
             obj = data.update(activated = True)
             obj = Blog.objects.get(id = blog_id)
             response = model_to_dict(obj)
+
+class GetAllBlogsActivatedView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        data = Blog.objects.filter(activated=True)
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             return Response(response,status=status.HTTP_200_OK)
