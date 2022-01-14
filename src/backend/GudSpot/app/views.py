@@ -32,6 +32,7 @@ class RegisterAPI(generics.GenericAPIView):
             user_id=user,
             avatar=request.data['avatar'],
             username=request.data['username'],
+            name=request.data['username'],
             description=request.data['description']).save()
         return Response({
             "status": 'success',
@@ -338,6 +339,15 @@ class StoreDashboard(generics.ListCreateAPIView):
     name = 'store-dashboard'
     pagination_class = PageNumberPagination
     
+class DeleteBlogView(generics.GenericAPIView):
+    model = Blog
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        data= Blog.objects.filter(id=request.data['blog_id'])
+        if data != None:
+            data.delete()
+            response = dict()
+
 class ActivateBlog(generics.GenericAPIView):
     serializer_class = BlogSerializer
     model = Blog
