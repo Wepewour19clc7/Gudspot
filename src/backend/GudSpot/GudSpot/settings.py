@@ -84,9 +84,9 @@ WSGI_APPLICATION = "GudSpot.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'gudspot',
+        'NAME':'GudSpot',
         'USER': 'root',
-        'PASSWORD': 'my-secret-pw',
+        'PASSWORD': 'password',
         'HOST': '172.17.0.2',
         'PORT': '3306',
     }

@@ -32,6 +32,7 @@ class RegisterAPI(generics.GenericAPIView):
             user_id=user,
             avatar=request.data['avatar'],
             username=request.data['username'],
+            name=request.data['username'],
             description=request.data['description']).save()
         return Response({
             "status": 'success',
@@ -276,10 +277,13 @@ class GetReviewView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             data = Review.objects.filter(store_id=serializer.data['store_id'])
+            t = data.values_list('score', flat = True)
+            avg_follows = sum(t)/len(t)
             response = dict()
             response['data'] = data.values()
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
+            response['avg_scores'] = avg_follows
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
@@ -291,6 +295,7 @@ class GetUserFollows(generics.GenericAPIView):
         if data != None:
             response = dict()
             response['data'] = data.values()
+
 class GetTopFollowStore(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         store = Store.objects.all().values_list('id', flat = True)
@@ -334,3 +339,37 @@ class StoreDashboard(generics.ListCreateAPIView):
     name = 'store-dashboard'
     pagination_class = PageNumberPagination
     
+class DeleteBlogView(generics.GenericAPIView):
+    model = Blog
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        data= Blog.objects.filter(id=request.data['blog_id'])
+        if data != None:
+            data.delete()
+            response = dict()
+
+class ActivateBlog(generics.GenericAPIView):
+    serializer_class = BlogSerializer
+    model = Blog
+    #POST method
+    def post(self, request, *args, **kwargs):
+        blog_id = request.POST['blog_id']
+        data = Blog.objects.filter(id = blog_id)
+        
+        #Check if data exists 
+        if data.exists():
+            obj = data.update(activated = True)
+            obj = Blog.objects.get(id = blog_id)
+            response = model_to_dict(obj)
+
+class GetAllBlogsActivatedView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        data = Blog.objects.filter(activated=True)
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
