@@ -237,7 +237,7 @@ class ChangeUserInfo(generics.GenericAPIView):
         
         #Check if data exists 
         if data.exists():
-            obj = user_information.objects.update(
+            obj = data.update(
                 username = username,
                 avatar = avatar,
                 description = description,
