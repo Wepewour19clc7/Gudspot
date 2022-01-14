@@ -282,6 +282,7 @@ class GetReviewView(generics.GenericAPIView):
             response['status'] = 'success'
             response['code'] = status.HTTP_200_OK
             response['avg_scores'] = avg_follows
+            response['total'] = len(t)
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
