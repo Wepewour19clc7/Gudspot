@@ -86,8 +86,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'GudSpot',
         'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': '172.17.0.2',
+        'PASSWORD': 'datnguyen2901',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
