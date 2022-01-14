@@ -19,7 +19,7 @@ class user_information(models.Model):
     user_id = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     user_type = models.IntegerField(choices=USER_TYPES.choices)
     username = models.CharField(max_length=100)
-    avatar = models.JSONField()
+    avatar = models.URLField()
     description = TextField()
     address = models.CharField(max_length=200)
     name = models.CharField(max_length=100)
