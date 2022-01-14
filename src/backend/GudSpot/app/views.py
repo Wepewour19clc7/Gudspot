@@ -220,12 +220,12 @@ class FollowStore(generics.GenericAPIView):
             
         return response            
         
-class ChangeUserInfo(generics.GenericAPIView):
+class ChangeUserInfo(generics.UpdateAPIView):
     serializer_class = ChangeInfoSerializer
     model = user_information
     permission_classes = (IsAuthenticated,)
     #POST method
-    def post(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         user_id = request.POST['user_id']
         avatar = request.POST['avatar']
         description = request.POST['description']
