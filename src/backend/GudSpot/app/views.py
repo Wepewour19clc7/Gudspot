@@ -376,3 +376,18 @@ class GetAllBlogsActivatedView(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetStoreOnwnerView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET.get('owner_id')
+        if id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = Store.objects.filter(owner_id=id)
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)

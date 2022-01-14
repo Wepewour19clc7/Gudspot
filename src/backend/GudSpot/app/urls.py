@@ -26,5 +26,6 @@ urlpatterns = [
     path('api/delete-blog',DeleteBlogView.as_view(),name='delete-blog'),
     path('api/blogs/activate',ActivateBlog.as_view(),name='activate-blog'),  
     path('api/get-all-blogs',GetAllBlogsActivatedView.as_view(),name='get-all-blogs'),
+    path('api/get-stores-owner',GetStoreOnwnerView.as_view(),name='get-store-owner'),
 
 ]
