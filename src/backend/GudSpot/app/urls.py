@@ -28,5 +28,7 @@ urlpatterns = [
     path('api/get-all-blogs',GetAllBlogsActivatedView.as_view(),name='get-all-blogs'),
     path('api/get-stores-owner',GetStoreOnwnerView.as_view(),name='get-store-owner'),
     path('api/check-review',ReviewedOrNotView.as_view(),name='check-review'),
+    path('api/check-follow',FollowedOrNotView.as_view(),name='check-follow'),
+    
 
 ]
