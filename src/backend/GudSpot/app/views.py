@@ -32,7 +32,7 @@ class RegisterAPI(generics.GenericAPIView):
             user_id=user,
             avatar=request.data['avatar'],
             username=request.data['username'],
-            name=request.data['name'],
+            name=request.data['username'],
             description=request.data['description']).save()
         return Response({
             "status": 'success',
