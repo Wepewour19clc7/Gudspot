@@ -24,4 +24,7 @@ urlpatterns = [
     path('api/get-top-follow-store', GetTopFollowStore.as_view(),name='gettopfollowstore'),
     path('api/storedashboard',StoreDashboard.as_view(),name='store-dashboard'),
     path('api/delete-blog',DeleteBlogView.as_view(),name='delete-blog'),
+    path('api/blogs/activate',ActivateBlog.as_view(),name='activate-blog'),  
+    path('api/get-all-blogs',GetAllBlogsActivatedView.as_view(),name='get-all-blogs'),
+
 ]
