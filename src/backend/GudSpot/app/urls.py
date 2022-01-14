@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/get-user-follow', GetUserFollows.as_view(), name='get-user-follow'),
     path('api/get-top-follow-store', GetTopFollowStore.as_view(),name='gettopfollowstore'),
     path('api/storedashboard',StoreDashboard.as_view(),name='store-dashboard'),
+    path('api/delete-blog',DeleteBlogView.as_view(),name='delete-blog'),
 ]

@@ -338,3 +338,18 @@ class StoreDashboard(generics.ListCreateAPIView):
     name = 'store-dashboard'
     pagination_class = PageNumberPagination
     
+class DeleteBlogView(generics.GenericAPIView):
+    model = Blog
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kwargs):
+        data= Blog.objects.filter(id=request.data['blog_id'])
+        if data != None:
+            data.delete()
+            response = dict()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+
