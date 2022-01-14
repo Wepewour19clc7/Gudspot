@@ -5,16 +5,18 @@ import clsx from 'clsx'
 import { BiStoreAlt } from 'react-icons/all'
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
+import { getFullToken, getToken } from '../../auth'
 
 const navigation = [
   { name: 'Home', href: '/', icon: HomeIcon, current: true },
-  { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false, auth: true },
+  { name: 'My Store', href: '/store', icon: BiStoreAlt, current: false, auth: true, owner: true},
   { name: 'My Profile', href: '/profile', icon: UserGroupIcon, current: false, auth: true },
   { name: 'About Us', href: '/about-us', icon: UserGroupIcon, current: false },
 ]
 
 const Sidebar = () => {
   const isLoggedIn = localStorage.getItem('isLoggedIn')
+  const getToken = getFullToken()
   console.log(isLoggedIn)
   console.log('side bar')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -75,8 +77,8 @@ const Sidebar = () => {
               <div className='mt-5 flex-1 h-0 overflow-y-auto'>
                 <nav className='px-2 space-y-1'>
                   {navigation.filter((el) => {
-                    if(el.auth) {
-                      return isLoggedIn
+                    if(el.auth || el.owner) {
+                      return isLoggedIn || el.type === 1
                     } else {
                       return true
                     }

@@ -6,29 +6,12 @@ import { ProfileModel } from './Profile.model'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
-import Gallery from '../../components/Gallery'
+import { Formik } from 'formik'
 
 const { TabPane } = Tabs
 
 function callback (key) {
   console.log(key)
-}
-
-const profile = {
-  name: 'The Pizza Company',
-  imageUrl:
-    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=781&q=80',
-  coverImageUrl:
-    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-  about: `
-    <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
-    <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
-  `,
-  fields: {
-    Phone: '(555) 123-4567',
-    Location: 'San Francisco',
-    Sits: 'Oasis, 4th floor',
-  },
 }
 
 const stores = [
@@ -238,117 +221,115 @@ export default function Profile () {
                           <div className='mt-10 sm:mt-0'>
                             <div className='md:grid md:grid-cols-3 md:gap-6'>
                               <div className='mt-5 md:mt-0 md:col-span-2'>
-                                <form action='#' method='POST'>
-                                  <div className='shadow overflow-hidden sm:rounded-md'>
-                                    <div className='py-5 bg-white'>
-                                      <div className='grid grid-cols-6 gap-6'>
-                                        <div className='col-span-6 sm:col-span-3'>
-                                          <label htmlFor='full-name'
-                                                 className='block text-sm font-medium text-gray-700'>
-                                            Full name
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='full-name'
-                                            id='full-name'
-                                            autoComplete='given-name'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
+                                <Formik
+                                  initialValues={{ name: '', address: '', description: '', avatar: ''}}
+                                  onSubmit={async (values, { setSubmitting }) => {
+                                    // await sendForm(values)
+                                    setSubmitting(false)
+                                  }}
+                                >
+                                  {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleChange,
+                                    handleBlur,
+                                    handleSubmit,
+                                    isSubmitting,
+                                    /* and other goodies */
+                                  }) => (
+                                    <form onSubmit={handleSubmit}>
+                                      <div className='shadow overflow-hidden sm:rounded-md'>
+                                        <div className='py-5 bg-white'>
+                                          <div className='grid grid-cols-6 gap-6'>
+                                            <div className='col-span-6 sm:col-span-3'>
+                                              <label htmlFor='full-name'
+                                                     className='block text-sm font-medium text-gray-700'>
+                                                Full name
+                                              </label>
+                                              <input
+                                                type='text'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.name}
+                                                name='name'
+                                                autoComplete='given-name'
+                                                className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                              />
+                                            </div>
+                                            <div className='col-span-6 sm:col-span-3'>
+                                              <label htmlFor='username'
+                                                     className='block text-sm font-medium text-gray-700'>
+                                                Username
+                                              </label>
+                                              <input
+                                                type='text'
+                                                name='username'
+                                                disabled={true}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.username}
+                                                id='username'
+                                                autoComplete='family-name'
+                                                className='bg-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                              />
+                                            </div>
+                                            <div className='col-span-6 sm:col-span-4'>
+                                              <label htmlFor='email-address'
+                                                     className='block text-sm font-medium text-gray-700'>
+                                                Email address
+                                              </label>
+                                              <input
+                                                type='text'
+                                                name='email-address'
+                                                id='email-address'
+                                                disabled={true}
+                                                autoComplete='email'
+                                                className='bg-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                              />
+                                            </div>
+                                            <div className='col-span-6'>
+                                              <label htmlFor='street-address'
+                                                     className='block text-sm font-medium text-gray-700'>
+                                                Street address
+                                              </label>
+                                              <input
+                                                type='text'
+                                                name='street-address'
+                                                id='street-address'
+                                                autoComplete='street-address'
+                                                className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                              />
+                                            </div>
+                                            <div className='col-span-6'>
+                                              <label htmlFor='street-address'
+                                                     className='block text-sm font-medium text-gray-700'>
+                                                Avatar URL
+                                              </label>
+                                              <input
+                                                type='text'
+                                                name='avatar'
+                                                id='avatar'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.avatar}
+                                                autoComplete='street-address'
+                                                className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                              />
+                                            </div>
+                                          </div>
                                         </div>
-
-                                        <div className='col-span-6 sm:col-span-3'>
-                                          <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
-                                            Username
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='username'
-                                            disabled={true}
-                                            id='username'
-                                            autoComplete='family-name'
-                                            className='bg-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
-                                        </div>
-
-                                        <div className='col-span-6 sm:col-span-4'>
-                                          <label htmlFor='email-address'
-                                                 className='block text-sm font-medium text-gray-700'>
-                                            Email address
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='email-address'
-                                            id='email-address'
-                                            autoComplete='email'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
-                                        </div>
-
-                                        <div className='col-span-6'>
-                                          <label htmlFor='street-address'
-                                                 className='block text-sm font-medium text-gray-700'>
-                                            Street address
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='street-address'
-                                            id='street-address'
-                                            autoComplete='street-address'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
-                                        </div>
-
-                                        <div className='col-span-6 sm:col-span-6 lg:col-span-2'>
-                                          <label htmlFor='city' className='block text-sm font-medium text-gray-700'>
-                                            City
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='city'
-                                            id='city'
-                                            autoComplete='address-level2'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
-                                        </div>
-
-                                        <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                                          <label htmlFor='region' className='block text-sm font-medium text-gray-700'>
-                                            State / Province
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='region'
-                                            id='region'
-                                            autoComplete='address-level1'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
-                                        </div>
-
-                                        <div className='col-span-6 sm:col-span-3 lg:col-span-2'>
-                                          <label htmlFor='postal-code'
-                                                 className='block text-sm font-medium text-gray-700'>
-                                            ZIP / Postal code
-                                          </label>
-                                          <input
-                                            type='text'
-                                            name='postal-code'
-                                            id='postal-code'
-                                            autoComplete='postal-code'
-                                            className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                                          />
+                                        <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
+                                          <button
+                                            type='submit'
+                                            className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                          >
+                                            Save
+                                          </button>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
-                                      <button
-                                        type='submit'
-                                        className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                      >
-                                        Save
-                                      </button>
-                                    </div>
-                                  </div>
-                                </form>
+                                    </form>
+                                  )}</Formik>
                               </div>
                             </div>
                           </div>

@@ -24,6 +24,16 @@ class UserService extends BaseRoute {
       user_id
     })
   }
+
+  async changeInfo (user_id, name, description, avatar, address) {
+    return await this.put('user-info/edit', {
+      user_id,
+      description,
+      avatar,
+      name,
+      address
+    })
+  }
 }
 
 export default UserService
