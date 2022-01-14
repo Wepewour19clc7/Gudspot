@@ -3,7 +3,7 @@ import TienDat from './images/tiendat.jpg'
 import Khoa from './images/khoa.jpg'
 import Tien from './images/tien.jpg'
 import TrongDat from './images/trongdat.jpg'
-
+import Khoi from './images/khoi.jpg'
 const AboutUs = () => {
   return (
     <div className='overflow-y-auto w-full h-full focus:outline-none px-5'>
@@ -12,7 +12,7 @@ const AboutUs = () => {
         <div className='flex flex-wrap items-stretch xl:justify-between justify-center mt-16 xl:gap-6 gap-4'>
           <div className='lg:w-96 w-80'>
             <img
-              src='https://images.unsplash.com/photo-1599566147214-ce487862ea4f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=647&q=80'
+              src={Khoi}
               className='h-72 w-full object-cover object-center rounded-t-md' alt='Nguyễn Tiến Đạt' />
             <div className='bg-white shadow-md rounded-md py-4 text-center'>
               <p className='text-base font-medium leading-6 text-gray-600'>Dương Minh Khôi</p>
