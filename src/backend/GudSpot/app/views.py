@@ -391,3 +391,16 @@ class GetStoreOnwnerView(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class ReviewedOrNotView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        store_id = request.GET.get('store_id')
+        user_id = request.GET.get('user_id')
+        data = Review.objects.filter(store_id=store_id, user_id=user_id)
+        response = dict()
+        if len(data) != 0:
+            response['mesg'] = 'Already reviewed'
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            response['mesg'] = 'Did not review'
+            return Response(response,status=status.HTTP_200_OK)
