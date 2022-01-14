@@ -7,6 +7,7 @@ import LogIn from '../pages/LogIn'
 import Register from '../pages/Register'
 import UserManager from '../pages/BlogManager'
 import Terms from '../pages/Terms'
+import BlogPage from '../pages/BlogPage'
 
 const ViewRoutes = [
   {
@@ -18,6 +19,11 @@ const ViewRoutes = [
     path: '/store/:id',
     exact: true,
     component: () => <StoreOwner />,
+  },
+  {
+    path: '/store/:id/blog/:blog_id',
+    exact: true,
+    component: () => <BlogPage />,
   },
   {
     path: '/about-us',
