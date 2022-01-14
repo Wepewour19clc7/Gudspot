@@ -5,9 +5,13 @@ export class ProfileModel {
     this.userService = new UserService()
   }
 
-  async getUser (data) {
-    const { user_id } = data
-
+  async getUser (user_id) {
     return await this.userService.getUser(user_id)
+  }
+
+  async changeInfo (data) {
+    const { user_id, name, address, description, avatar } = data
+
+    return await this.userService.changeInfo(user_id, name, address, description, avatar)
   }
 }

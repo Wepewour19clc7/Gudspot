@@ -17,8 +17,8 @@ class BaseRoute {
     return axios.get(this.baseUrl + endpoint, { params })
   }
 
-  async post (endpoint, data) {
-    return await axios.post(this.baseUrl + endpoint, data).then(response => {
+  async post (endpoint, data, headers) {
+    return await axios.post(this.baseUrl + endpoint, data, headers).then(response => {
       return {
         data: response.data,
         status: response.status,
@@ -33,8 +33,8 @@ class BaseRoute {
     })
   }
 
-  put (endpoint, data) {
-    return axios.put(this.baseUrl + endpoint, data)
+  put (endpoint, data, headers) {
+    return axios.put(this.baseUrl + endpoint, data, headers)
   }
 }
 

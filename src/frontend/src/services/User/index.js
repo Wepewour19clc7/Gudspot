@@ -1,4 +1,5 @@
 import BaseRoute from '../BaseRoute'
+import { getToken } from '../../auth'
 
 class UserService extends BaseRoute {
   async login (username, password) {
@@ -20,9 +21,7 @@ class UserService extends BaseRoute {
   }
 
   async getUser (user_id) {
-    return await this.get('user-info', {
-      user_id
-    })
+    return await this.get('user-info?user_id=' + user_id)
   }
 
   async changeInfo (user_id, name, description, avatar, address) {
@@ -31,7 +30,11 @@ class UserService extends BaseRoute {
       description,
       avatar,
       name,
-      address
+      address,
+    }, {
+      headers: {
+        'Authorization': `Token ${getToken()}`,
+      },
     })
   }
 }

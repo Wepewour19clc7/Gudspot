@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import { Formik } from 'formik'
+import { toast } from 'react-toastify'
 
 const { TabPane } = Tabs
 
@@ -76,8 +77,20 @@ export default function Profile () {
   const [profile, setProfile] = useState({})
   const userId = getFullToken().id
 
+  const sendForm = async (values) => {
+    values.user_id = getFullToken().id;
+    const result = await profileModel.changeInfo(values)
+
+    console.log('result ass', result)
+    if (result.status === 200 || result.status === 201) {
+      toast.success('Change information successfully')
+    } else {
+      toast.error('Change fail')
+    }
+  }
+
   useEffect(() => {
-    profileModel.getUser({ userId }).then((res) => {
+    profileModel.getUser(userId ).then((res) => {
       console.log('res data profile', res.data)
       setProfile(res.data)
     })
@@ -114,7 +127,7 @@ export default function Profile () {
                     <div
                       className='mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1'>
                       <div className='sm:hidden 2xl:block mt-6 min-w-0 flex-1'>
-                        <h1 className='text-2xl font-bold text-gray-900 truncate'>hello world</h1>
+                        <h1 className='text-2xl font-bold text-gray-900 truncate'>{profile.name ? profile.name : 'Not available name'}</h1>
                       </div>
                       <div
                         className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
@@ -123,7 +136,7 @@ export default function Profile () {
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
                         >
                           <LibraryIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
-                          <span>John's Store</span>
+                          <span>Store</span>
                         </button>
                       </div>
                     </div>
@@ -147,25 +160,25 @@ export default function Profile () {
                               <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
                                 <div className='sm:col-span-1'>
                                   <dt className='text-sm font-medium text-gray-500'>Full name</dt>
-                                  <dd className='mt-1 text-sm text-gray-900'>Hello Name</dd>
+                                  <dd className='mt-1 text-sm text-gray-900'>{profile.name ? profile.name : 'Not available name'}</dd>
                                 </div>
                                 <div className='sm:col-span-1'>
                                   <dt className='text-sm font-medium text-gray-500'>Username</dt>
-                                  <dd className='mt-1 text-sm text-gray-900'>datkira</dd>
+                                  <dd className='mt-1 text-sm text-gray-900'>{profile.username ? profile.username : 'Not available username'}</dd>
                                 </div>
                                 <div className='sm:col-span-1'>
                                   <dt className='text-sm font-medium text-gray-500'>Address</dt>
-                                  <dd className='mt-1 text-sm text-gray-900'>227 Nguyen Van Cu</dd>
+                                  <dd className='mt-1 text-sm text-gray-900'>{profile.address ? profile.address : 'Not available'}</dd>
                                 </div>
                                 <div className='sm:col-span-1'>
                                   <dt className='text-sm font-medium text-gray-500'>Type</dt>
-                                  <dd className='mt-1 text-sm text-gray-900'>Owner</dd>
+                                  <dd className='mt-1 text-sm text-gray-900'>{profile.user_type === 1 ? 'Owner' : 'User'}</dd>
                                 </div>
                                 <div className='w-full'>
                                   <dt className='text-sm font-medium text-gray-500'>Description</dt>
                                   <dd
                                     className='mt-1 text-sm text-gray-900 space-y-5'
-                                    dangerouslySetInnerHTML={{ __html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec ante id sem consequat auctor. Suspendisse pellentesque lacus nibh, ac aliquet magna convallis nec. Aliquam vel justo viverra, eleifend dui elementum, venenatis nisi. Vivamus tristique sodales nisl. Aenean porttitor a quam sit amet dignissim. Vivamus egestas libero a venenatis pharetra. Maecenas in nulla dignissim, interdum lectus et, rutrum odio. Donec a suscipit neque. Integer efficitur consequat vulputate. Donec ullamcorper venenatis nunc vitae tristique. Cras viverra congue efficitur. Praesent cursus vestibulum tortor, quis ultrices magna tempus eget.' }}
+                                    dangerouslySetInnerHTML={{ __html: profile.description }}
                                   />
                                 </div>
                               </dl>
@@ -224,7 +237,8 @@ export default function Profile () {
                                 <Formik
                                   initialValues={{ name: '', address: '', description: '', avatar: ''}}
                                   onSubmit={async (values, { setSubmitting }) => {
-                                    // await sendForm(values)
+                                    console.log('values form change profile', values)
+                                    await sendForm(values)
                                     setSubmitting(false)
                                   }}
                                 >
@@ -268,24 +282,25 @@ export default function Profile () {
                                                 disabled={true}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.username}
+                                                value={profile.username}
                                                 id='username'
                                                 autoComplete='family-name'
                                                 className='bg-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                                               />
                                             </div>
-                                            <div className='col-span-6 sm:col-span-4'>
-                                              <label htmlFor='email-address'
+                                            <div className='col-span-6'>
+                                              <label htmlFor='description'
                                                      className='block text-sm font-medium text-gray-700'>
-                                                Email address
+                                                Description
                                               </label>
                                               <input
                                                 type='text'
-                                                name='email-address'
-                                                id='email-address'
-                                                disabled={true}
-                                                autoComplete='email'
-                                                className='bg-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.description}
+                                                name='description'
+                                                id='description'
+                                                className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                                               />
                                             </div>
                                             <div className='col-span-6'>
@@ -295,9 +310,11 @@ export default function Profile () {
                                               </label>
                                               <input
                                                 type='text'
-                                                name='street-address'
-                                                id='street-address'
-                                                autoComplete='street-address'
+                                                name='address'
+                                                id='address'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.address}
                                                 className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                                               />
                                             </div>

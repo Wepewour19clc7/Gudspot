@@ -1,11 +1,13 @@
+import StoreService from '../services/Store'
+
 export class MasterModel {
   constructor () {
-    this.userService = new UserService()
+    this.storeService = new StoreService()
   }
 
-  async register (data) {
-    const { email, username, password, type } = data
+  async review (data) {
+    const { user_id, store_id, score, description } = data
 
-    return await this.userService.register(email, password, username, type)
+    return await this.storeService.review(user_id, store_id, score, description)
   }
 }

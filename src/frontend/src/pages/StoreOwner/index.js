@@ -1,4 +1,4 @@
-import { BadgeCheckIcon } from '@heroicons/react/outline'
+import { BadgeCheckIcon, UserAddIcon } from '@heroicons/react/outline'
 import { ChevronLeftIcon, StarIcon } from '@heroicons/react/solid'
 import Gallery from '../../components/Gallery'
 import Blog from '../../components/Blog'
@@ -7,6 +7,10 @@ import { useHistory } from 'react-router-dom'
 import { StoreOwnerModel } from './StoreOwner.model'
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { Field, Formik } from 'formik'
+import { toast } from 'react-toastify'
+import { MasterModel } from '../../model/Master.model'
+import { getFullToken } from '../../auth'
 
 const { TabPane } = Tabs
 
@@ -19,12 +23,27 @@ function classNames (...classes) {
 }
 
 export default function StoreOwner () {
+  const masterModel = new MasterModel()
   const storeOwnerModel = new StoreOwnerModel()
   const history = useHistory()
   const store_id = history.location.pathname.split('/')[2]
 
   const [store, setStore] = useState({})
   const [owner, setOwner] = useState({})
+
+  const sendForm = async (values) => {
+    values.user_id = getFullToken().id;
+    values.store_id = store_id;
+    const result = await masterModel.review(values)
+
+    console.log('result ass', result)
+    if (result.status === 200 || result.status === 201) {
+      toast.success('Review successfully')
+    } else {
+      toast.error('Review fail')
+    }
+  }
+
   useEffect(() => {
     storeOwnerModel.getStore({ store_id }).then((res) => {
       setStore(res.data.store_data)
@@ -67,7 +86,7 @@ export default function StoreOwner () {
                       </div>
                       <div
                         className='mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
-                        <div className='pl-2 mt-5 flex items-center'>
+                        <div className='pl-2 flex items-center'>
                           {[0, 1, 2, 3, 4].map((rating) => (
                             <StarIcon
                               key={rating}
@@ -83,10 +102,18 @@ export default function StoreOwner () {
                           type='button'
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
                         >
-                          <BadgeCheckIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
+                          <UserAddIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
                           <span>Follow</span>
                         </button>
-                      </div>
+                        <button
+                          type='button'
+                          disabled={true}
+                          className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
+                        >
+                          <BadgeCheckIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
+                          <span>{store.follow_counts} Follower</span>
+                        </button>
+                      </div>status
                     </div>
                   </div>
                   <div className='hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1'>
@@ -144,6 +171,72 @@ export default function StoreOwner () {
                         </TabPane>
                         <TabPane tab='Review' key='2'>
                           {/*REVIEW*/}
+                          <div className='flex justify-center shadow-lg my-4 '>
+                            <Formik
+                              initialValues={{ score: '', description: '' }}
+                              onSubmit={async (values, { setSubmitting }) => {
+                                console.log('submit reviews', values);
+                                await sendForm(values)
+                                setSubmitting(false)
+                              }}
+                            >
+                              {({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                isSubmitting,
+                                /* and other goodies */
+                              }) => (
+                                <form onSubmit={handleSubmit} className='w-full bg-white rounded-lg px-4 pt-2'>
+                                  <div className='flex flex-wrap -mx-3 mb-6'>
+                                    <h2 className='px-4 pt-3 text-gray-800 text-xl'>Quick Review</h2>
+                                    <div className='w-full md:w-full px-3 mb-2'>
+                                      <div className='my-3'>
+                                        <label htmlFor='type' className='block text-sm font-medium text-gray-700'>
+                                          Choose star
+                                        </label>
+                                        <div className='mt-1'>
+                                          <Field name='score' as='select'
+                                                 defaultValue={5}
+                                                 onChange={handleChange}
+                                                 className='block w-full border-gray-300 mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'>
+                                            <option value={5}>5</option>
+                                            <option value={0}>0</option>
+                                            <option value={1}>1</option>
+                                            <option value={2}>2</option>
+                                            <option value={3}>3</option>
+                                            <option value={4}>4</option>
+                                          </Field>
+                                        </div>
+                                      </div>
+                                      <textarea
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.description}
+                                        className='bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
+                                        name='description' placeholder='Type Your Review' required />
+                                    </div>
+                                    <div className='w-full md:w-full flex items-start md:w-full px-3'>
+                                      <div className='flex items-start w-1/2 text-gray-700 px-2 mr-auto'>
+                                        <svg fill='none' className='w-5 h-5 text-gray-600 mr-1' viewBox='0 0 24 24'
+                                             stroke='currentColor'>
+                                          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2'
+                                                d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
+                                        </svg>
+                                        <p className='text-xs md:text-sm pt-px'>Some HTML is okay.</p>
+                                      </div>
+                                      <div className='-mr-1'>
+                                        <input type='submit'
+                                               className='bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100'
+                                               value='Review' />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>)}</Formik>
+                          </div>
                           <div className='mt-8 max-w-7xl mx-auto px-4 pb-12 sm:px-6 lg:px-8'>
                             <section className='bg-white overflow-hidden'>
                               <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>
