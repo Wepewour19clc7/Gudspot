@@ -364,6 +364,7 @@ class ActivateBlog(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
 class GetAllBlogsActivatedView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         data = Blog.objects.filter(activated=True)
