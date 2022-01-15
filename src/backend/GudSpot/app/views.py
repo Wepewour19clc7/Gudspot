@@ -176,6 +176,16 @@ class StorePageView(generics.GenericAPIView):
             owner_data = model_to_dict(user_information.objects.get(user_id=store_data['owner_id']))
             followers = Follow.objects.filter(store_id=store_id).count()
             store_data['follow_counts'] = followers
+            reviews = Review.objects.filter(store_id=store_id)
+            review_ar = reviews.values_list('score', flat = True)
+            review_counts = reviews.count()
+            if review_counts == 0 :
+                avg_review = 0
+            else: 
+                avg_review = sum(review_ar)/review_counts
+            review_counts = reviews.count()
+            store_data['avg_scores'] = avg_review
+            store_data['total_review'] = review_counts
             return Response({
                 "status": "success",
                 "code" : status.HTTP_200_OK,
