@@ -332,7 +332,6 @@ class GetReviewView(generics.GenericAPIView):
         return Response(response,status=status.HTTP_200_OK)
 
 class GetUserFollowsList(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         user_id = request.GET.get('user_id',None)
         if user_id == None:
