@@ -314,7 +314,7 @@ class GetReviewView(generics.GenericAPIView):
         return Response(response,status=status.HTTP_200_OK)
         # else:
 
-class GetUserFollows(generics.GenericAPIView):
+class GetUserFollowsList(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         user_id = request.GET.get('user_id',None)
@@ -324,9 +324,26 @@ class GetUserFollows(generics.GenericAPIView):
         if len(user_obj) == 0:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         data = Follow.objects.filter(user_id=user_id)
+        detailed_follow = [] 
+        for follow in data:
+            store_id = follow.store_id_id
+            store = Store.objects.get(id = store_id)
+            reviews = Review.objects.filter(store_id=store_id)
+            review_ar = reviews.values_list('score', flat = True)
+            review_counts = reviews.count()
+            if review_counts == 0 :
+                avg_review = 0
+            else: 
+                avg_review = sum(review_ar)/review_counts
+            review_counts = reviews.count()
+            detailed_store = model_to_dict(store)
+            detailed_store['review_count'] = review_counts
+            detailed_store['avg_review'] = avg_review
+            detailed_follow.append(detailed_store)
+            
         response = dict()
         if data != None:
-            response['data'] = data.values()
+            response['data'] = detailed_follow
         else:
             response['data'] = []
         return Response(response,status=status.HTTP_200_OK)
@@ -390,8 +407,17 @@ class StoreDashboard(generics.ListCreateAPIView):
             response = dict()
             for store in store_queryset:
                 store_dict = model_to_dict(store)
-                review_count = Review.objects.filter(store_id_id = store).count()
-                store_dict['review_count'] = review_count
+                # review_count = Review.objects.filter(store_id_id = store).count()
+                reviews = Review.objects.filter(store_id_id=store)
+                review_ar = reviews.values_list('score', flat = True)
+                review_counts = reviews.count()
+                if review_counts == 0 :
+                    avg_review = 0
+                else: 
+                    avg_review = sum(review_ar)/review_counts
+                review_counts = reviews.count()
+                store_dict['review_count'] = review_counts
+                store_dict['avg_review'] = avg_review
                 store_data.append(store_dict)
             
             response['results'] = store_data         
@@ -477,9 +503,9 @@ class FollowedOrNotView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         store_id = request.GET.get('store_id')
         user_id = request.GET.get('user_id')
-        data = Review.objects.filter(store_id=store_id, user_id=user_id)
+        data = Follow.objects.filter(store_id=store_id, user_id=user_id)
         response = dict()
-        if len(data) != 0:
+        if data.exists():
             response['mesg'] = 'Already Followed'
             return Response(response,status=status.HTTP_200_OK)
         else:
