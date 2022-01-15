@@ -1,5 +1,5 @@
 from audioop import avg
-from re import search
+from re import U, search
 from django.db import reset_queries
 from rest_framework import generics, permissions, serializers, status
 from rest_framework import response
@@ -301,18 +301,25 @@ class GetReviewView(generics.GenericAPIView):
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         data = Review.objects.filter(store_id=store_id)
         t = data.values_list('score', flat = True)
+        review_datas = []
+        for d in data:
+            review_data = model_to_dict(d)
+            user_data = model_to_dict(user_information.objects.get(user_id=review_data['user_id']))
+            review_data['user_info'] = user_data
+            review_datas.append(review_data)
+
+
         if len(t) == 0:
             avg_review = 0
         else:
             avg_review = sum(t)/len(t)
         response = dict()
-        response['data'] = data.values()
+        response['data'] = review_datas
         response['status'] = 'success'
         response['code'] = status.HTTP_200_OK
         response['avg_scores'] = avg_review
         response['total'] = len(t)
         return Response(response,status=status.HTTP_200_OK)
-        # else:
 
 class GetUserFollows(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
