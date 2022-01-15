@@ -203,8 +203,8 @@ class FollowStore(generics.GenericAPIView):
         # if serializer.is_valid():
         # print(serializer.is_valid())
         # obj = serializer.save()
-        store_id = request.POST['store_id']
-        user_id = request.POST['user_id']
+        store_id = request.data['store_id']
+        user_id = request.data['user_id']
         data = Follow.objects.filter(store_id_id=store_id,user_id_id=user_id)
 
         message = {"Message": "Store Followed","status":"success","code":201}
@@ -220,26 +220,24 @@ class FollowStore(generics.GenericAPIView):
             
         return response            
         
-class ChangeUserInfo(generics.GenericAPIView):
+class ChangeUserInfo(generics.UpdateAPIView):
     serializer_class = ChangeInfoSerializer
     model = user_information
     permission_classes = (IsAuthenticated,)
     #POST method
-    def post(self, request, *args, **kwargs):
-        user_id = request.POST['user_id']
-        username = request.POST['username']
-        avatar = request.POST['avatar']
-        description = request.POST['description']
-        name = request.POST['name']
-        address = request.POST['address']
+    def update(self, request, *args, **kwargs):
+        user_id = request.data['user_id']
+        avatar = request.data['avatar']
+        description = request.data['description']
+        name = request.data['name']
+        address = request.data['address']
         data = user_information.objects.filter(
             user_id_id = user_id,
         )
         
         #Check if data exists 
         if data.exists():
-            obj = user_information.objects.update(
-                username = username,
+            obj = data.update(
                 avatar = avatar,
                 description = description,
                 name = name,
@@ -361,6 +359,11 @@ class ActivateBlog(generics.GenericAPIView):
             obj = data.update(activated = True)
             obj = Blog.objects.get(id = blog_id)
             response = model_to_dict(obj)
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetAllBlogsActivatedView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
@@ -373,3 +376,31 @@ class GetAllBlogsActivatedView(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetStoreOnwnerView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        id = request.GET.get('owner_id')
+        if id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = Store.objects.filter(owner_id=id)
+        if data != None:
+            response = dict()
+            response['data'] = data.values()
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+
+class ReviewedOrNotView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        store_id = request.GET.get('store_id')
+        user_id = request.GET.get('user_id')
+        data = Review.objects.filter(store_id=store_id, user_id=user_id)
+        response = dict()
+        if len(data) != 0:
+            response['mesg'] = 'Already reviewed'
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            response['mesg'] = 'Did not review'
+            return Response(response,status=status.HTTP_200_OK)

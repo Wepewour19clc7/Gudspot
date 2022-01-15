@@ -1,6 +1,6 @@
 import StoreService from '../../services/Store'
 
-export class GetAllStores {
+export class RandomStoresModel {
   constructor () {
     this.storeService = new StoreService()
   }
@@ -13,5 +13,9 @@ export class GetAllStores {
 
   async getAllStores () {
     return await this.storeService.getAllStores()
+  }
+
+  async getTopStores () {
+    return await this.storeService.getTopStores()
   }
 }

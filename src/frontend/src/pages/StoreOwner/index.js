@@ -27,13 +27,13 @@ export default function StoreOwner () {
   const storeOwnerModel = new StoreOwnerModel()
   const history = useHistory()
   const store_id = history.location.pathname.split('/')[2]
-
+  const [isReview, setIsReview] = useState(false)
   const [store, setStore] = useState({})
   const [owner, setOwner] = useState({})
 
   const sendForm = async (values) => {
-    values.user_id = getFullToken().id;
-    values.store_id = store_id;
+    values.user_id = getFullToken().id
+    values.store_id = store_id
     const result = await masterModel.review(values)
 
     console.log('result ass', result)
@@ -44,11 +44,41 @@ export default function StoreOwner () {
     }
   }
 
+  const follow = async () => {
+    const result = await masterModel.follow(store_id, getFullToken().id)
+    if (result.data.Message === 'Store Followed') {
+      toast.success('Follow successfully')
+    } else {
+      toast.success('Unfollow successfully')
+    }
+  }
+
+  const unFollow = async () => {
+    const result = await masterModel.follow(store_id, getFullToken().id)
+    if (result.Message === 'Store Followed') {
+      toast.success('Unfollow successfully')
+    } else {
+      toast.error('Unfollow fail')
+    }
+  }
+
   useEffect(() => {
     storeOwnerModel.getStore({ store_id }).then((res) => {
       setStore(res.data.store_data)
       console.log('store', res.data.store_data)
       setOwner(res.data.owner_data)
+    })
+
+    masterModel.getReviews(store_id).then((res) => {
+      setStore(res.data.store_data)
+      console.log('store', res.data.store_data)
+      setOwner(res.data.owner_data)
+    })
+
+    masterModel.checkReview(store_id, getFullToken().id).then((res) => {
+      if (res.data.mesg == 'Already reviewed') {
+        setIsReview(true)
+      }
     })
   }, [])
 
@@ -100,6 +130,7 @@ export default function StoreOwner () {
                         </div>
                         <button
                           type='button'
+                          onClick={follow}
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
                         >
                           <UserAddIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
@@ -113,7 +144,7 @@ export default function StoreOwner () {
                           <BadgeCheckIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
                           <span>{store.follow_counts} Follower</span>
                         </button>
-                      </div>status
+                      </div>
                     </div>
                   </div>
                   <div className='hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1'>
@@ -171,11 +202,12 @@ export default function StoreOwner () {
                         </TabPane>
                         <TabPane tab='Review' key='2'>
                           {/*REVIEW*/}
-                          <div className='flex justify-center shadow-lg my-4 '>
+
+                          {!isReview ? <div className='flex justify-center shadow-lg my-4 '>
                             <Formik
                               initialValues={{ score: '', description: '' }}
                               onSubmit={async (values, { setSubmitting }) => {
-                                console.log('submit reviews', values);
+                                console.log('submit reviews', values)
                                 await sendForm(values)
                                 setSubmitting(false)
                               }}
@@ -236,7 +268,10 @@ export default function StoreOwner () {
                                     </div>
                                   </div>
                                 </form>)}</Formik>
-                          </div>
+                          </div> : <div className={'text-center'}>      <span
+                            className='inline-flex items-center px-2.5 py-0.5 rounded-md text-lg font-medium bg-green-100 text-green-800'>
+        You reviewed this store!
+      </span></div>}
                           <div className='mt-8 max-w-7xl mx-auto px-4 pb-12 sm:px-6 lg:px-8'>
                             <section className='bg-white overflow-hidden'>
                               <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>

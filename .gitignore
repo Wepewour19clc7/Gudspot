@@ -136,3 +136,4 @@ settings.py
 
 # migration
 migrations
+src/backend/GudSpot/GudSpot/settings.py

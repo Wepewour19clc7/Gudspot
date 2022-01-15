@@ -120,7 +120,7 @@ export default function Profile () {
                     <div className='flex'>
                       <img
                         className='h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32'
-                        src={'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}
+                        src={profile.avatar ? profile.avatar : 'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'}
                         alt=''
                       />
                     </div>
@@ -142,7 +142,7 @@ export default function Profile () {
                     </div>
                   </div>
                   <div className='hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1'>
-                    <h1 className='text-2xl font-bold text-gray-900 truncate'>hello world</h1>
+                    <h1 className='text-2xl font-bold text-gray-900 truncate'>{profile.name ? profile.name : 'Not available name'}</h1>
                   </div>
                 </div>
               </div>
@@ -159,8 +159,8 @@ export default function Profile () {
                             <div className='mt-6 max-w-7xl'>
                               <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
                                 <div className='sm:col-span-1'>
-                                  <dt className='text-sm font-medium text-gray-500'>Full name</dt>
-                                  <dd className='mt-1 text-sm text-gray-900'>{profile.name ? profile.name : 'Not available name'}</dd>
+                                  <dt className='text-sm font-medium text-gray-500'>ID</dt>
+                                  <dd className='mt-1 text-sm text-gray-900'>{profile.user_id ? profile.user_id : 'Not available name'}</dd>
                                 </div>
                                 <div className='sm:col-span-1'>
                                   <dt className='text-sm font-medium text-gray-500'>Username</dt>
@@ -257,7 +257,7 @@ export default function Profile () {
                                         <div className='py-5 bg-white'>
                                           <div className='grid grid-cols-6 gap-6'>
                                             <div className='col-span-6 sm:col-span-3'>
-                                              <label htmlFor='full-name'
+                                              <label
                                                      className='block text-sm font-medium text-gray-700'>
                                                 Full name
                                               </label>
@@ -272,7 +272,7 @@ export default function Profile () {
                                               />
                                             </div>
                                             <div className='col-span-6 sm:col-span-3'>
-                                              <label htmlFor='username'
+                                              <label
                                                      className='block text-sm font-medium text-gray-700'>
                                                 Username
                                               </label>
@@ -289,7 +289,7 @@ export default function Profile () {
                                               />
                                             </div>
                                             <div className='col-span-6'>
-                                              <label htmlFor='description'
+                                              <label
                                                      className='block text-sm font-medium text-gray-700'>
                                                 Description
                                               </label>
@@ -304,7 +304,7 @@ export default function Profile () {
                                               />
                                             </div>
                                             <div className='col-span-6'>
-                                              <label htmlFor='street-address'
+                                              <label
                                                      className='block text-sm font-medium text-gray-700'>
                                                 Street address
                                               </label>
@@ -319,7 +319,7 @@ export default function Profile () {
                                               />
                                             </div>
                                             <div className='col-span-6'>
-                                              <label htmlFor='street-address'
+                                              <label
                                                      className='block text-sm font-medium text-gray-700'>
                                                 Avatar URL
                                               </label>

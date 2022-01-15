@@ -10,4 +10,20 @@ export class MasterModel {
 
     return await this.storeService.review(user_id, store_id, score, description)
   }
+
+  async getReviews (store_id) {
+    return await this.storeService.getReviews(store_id)
+  }
+
+  async checkReview (store_id, user_id) {
+    return await this.storeService.checkReview(store_id, user_id)
+  }
+
+  async checkFollow (store_id, user_id) {
+    return await this.storeService.checkFollow(store_id, user_id)
+  }
+
+  async follow (store_id, user_id) {
+    return await this.storeService.follow(store_id, user_id)
+  }
 }
