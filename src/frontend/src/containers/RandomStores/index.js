@@ -56,7 +56,7 @@ const RandomStores = () => {
                         />
                       ))}
                     </div>
-                    {/*<p className='mt-1 text-sm text-gray-500'>{store.reviewCount} reviews</p>*/}
+                    <p className='mt-1 text-sm text-gray-500'>{store.reviewCount} reviews</p>
                   </div>
                 </div>
               </div>

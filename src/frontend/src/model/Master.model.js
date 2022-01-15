@@ -24,6 +24,10 @@ export class MasterModel {
   }
 
   async follow (store_id, user_id) {
-    return await this.storeService.follow(store_id, user_id)
+    return await this.storeService.followStore(store_id, user_id)
+  }
+
+  async getBlogs (store_id) {
+    return await this.storeService.getBlogs(store_id)
   }
 }

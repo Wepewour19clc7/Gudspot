@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import SearchBar from '../SearchBar'
 import { BellIcon, MenuAlt2Icon } from '@heroicons/react/outline'
 import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import { Link, useHistory } from 'react-router-dom'
-import { deleteToken } from '../../auth'
+import { deleteToken, getFullToken } from '../../auth'
 import { toast } from 'react-toastify'
+import { ProfileModel } from '../../pages/Profile/Profile.model'
 
 const userNavigation = [
   { name: 'Your Profile', href: '/profile' },
@@ -14,7 +15,17 @@ const userNavigation = [
 
 const HeaderApp = ({ isLogged }) => {
   const [isLoggedState, setIsLoggedState] = React.useState(isLogged)
+  const userId = getFullToken().id
+  const profileModel = new ProfileModel()
+  const [profile, setProfile] = useState({})
+
   const history = useHistory()
+  useEffect(() => {
+    profileModel.getUser(userId ).then((res) => {
+      console.log('res data profile', res.data)
+      setProfile(res.data)
+    })
+  }, [])
   return (
     <div className='relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex'>
       <button
@@ -49,7 +60,7 @@ const HeaderApp = ({ isLogged }) => {
                   <span className='sr-only'>Open user menu</span>
                   <img
                     className='h-8 w-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                    src={profile.avatar ? profile.avatar : 'https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'}
                     alt=''
                   />
                 </Menu.Button>

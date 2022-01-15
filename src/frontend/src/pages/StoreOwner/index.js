@@ -30,7 +30,9 @@ export default function StoreOwner () {
   const [isReview, setIsReview] = useState(false)
   const [store, setStore] = useState({})
   const [owner, setOwner] = useState({})
-
+  const [blogs, setBlogs] = useState([])
+  const [reviews, setReviews] = useState([])
+  const [isFollow, setIsFollow] = useState(false)
   const sendForm = async (values) => {
     values.user_id = getFullToken().id
     values.store_id = store_id
@@ -47,18 +49,11 @@ export default function StoreOwner () {
   const follow = async () => {
     const result = await masterModel.follow(store_id, getFullToken().id)
     if (result.data.Message === 'Store Followed') {
+      setIsFollow(true)
       toast.success('Follow successfully')
     } else {
+      setIsFollow(false)
       toast.success('Unfollow successfully')
-    }
-  }
-
-  const unFollow = async () => {
-    const result = await masterModel.follow(store_id, getFullToken().id)
-    if (result.Message === 'Store Followed') {
-      toast.success('Unfollow successfully')
-    } else {
-      toast.error('Unfollow fail')
     }
   }
 
@@ -70,14 +65,29 @@ export default function StoreOwner () {
     })
 
     masterModel.getReviews(store_id).then((res) => {
-      setStore(res.data.store_data)
-      console.log('store', res.data.store_data)
-      setOwner(res.data.owner_data)
+      console.log('reviews', res.data)
+      setReviews(res.data.data)
     })
 
     masterModel.checkReview(store_id, getFullToken().id).then((res) => {
       if (res.data.mesg == 'Already reviewed') {
         setIsReview(true)
+      }
+    })
+
+    masterModel.checkFollow(store_id, getFullToken().id).then((res) => {
+      if (res.data.mesg == 'Already Followed') {
+        console.log('followed')
+        setIsFollow(true)
+      }else {
+        setIsFollow(false)
+      }
+    })
+
+    masterModel.getBlogs(store_id).then((res) => {
+      if (res.data.code === 200) {
+        console.log('blogs', res.data.data)
+        setBlogs(res.data.data)
       }
     })
   }, [])
@@ -134,7 +144,7 @@ export default function StoreOwner () {
                           className='inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
                         >
                           <UserAddIcon className='-ml-1 mr-2 h-5 w-5 text-gray-400' aria-hidden='true' />
-                          <span>Follow</span>
+                          <span>{isFollow ? 'Unfollow' : 'Follow'}</span>
                         </button>
                         <button
                           type='button'
@@ -273,309 +283,106 @@ export default function StoreOwner () {
         You reviewed this store!
       </span></div>}
                           <div className='mt-8 max-w-7xl mx-auto px-4 pb-12 sm:px-6 lg:px-8'>
-                            <section className='bg-white overflow-hidden'>
-                              <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>
-                                <svg
-                                  className='absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden'
-                                  width={784}
-                                  height={404}
-                                  fill='none'
-                                  viewBox='0 0 784 404'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={784} height={404} fill='url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)' />
-                                </svg>
+                            {reviews.map(review =>
+                              <section className='bg-white overflow-hidden'>
+                                <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>
+                                  <svg
+                                    className='absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden'
+                                    width={784}
+                                    height={404}
+                                    fill='none'
+                                    viewBox='0 0 784 404'
+                                    aria-hidden='true'
+                                  >
+                                    <defs>
+                                      <pattern
+                                        id='e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32'
+                                        x={0}
+                                        y={0}
+                                        width={20}
+                                        height={20}
+                                        patternUnits='userSpaceOnUse'
+                                      >
+                                        <rect x={0} y={0} width={4} height={4} className='text-gray-200'
+                                              fill='currentColor' />
+                                      </pattern>
+                                    </defs>
+                                    <rect width={784} height={404} fill='url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)' />
+                                  </svg>
 
-                                <svg
-                                  className='hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2'
-                                  width={404}
-                                  height={784}
-                                  fill='none'
-                                  viewBox='0 0 404 784'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='56409614-3d62-4985-9a10-7ca758a8f4f0'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={404} height={784} fill='url(#56409614-3d62-4985-9a10-7ca758a8f4f0)' />
-                                </svg>
+                                  <svg
+                                    className='hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2'
+                                    width={404}
+                                    height={784}
+                                    fill='none'
+                                    viewBox='0 0 404 784'
+                                    aria-hidden='true'
+                                  >
+                                    <defs>
+                                      <pattern
+                                        id='56409614-3d62-4985-9a10-7ca758a8f4f0'
+                                        x={0}
+                                        y={0}
+                                        width={20}
+                                        height={20}
+                                        patternUnits='userSpaceOnUse'
+                                      >
+                                        <rect x={0} y={0} width={4} height={4} className='text-gray-200'
+                                              fill='currentColor' />
+                                      </pattern>
+                                    </defs>
+                                    <rect width={404} height={784} fill='url(#56409614-3d62-4985-9a10-7ca758a8f4f0)' />
+                                  </svg>
 
-                                <div className='relative lg:flex lg:items-center'>
-                                  <div className='hidden lg:block lg:flex-shrink-0'>
-                                    <img
-                                      className='h-64 w-64 rounded-full xl:h-28 xl:w-28'
-                                      src='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-                                      alt=''
-                                    />
-                                  </div>
-                                  <div className='relative lg:ml-10'>
-                                    <blockquote className='relative'>
-                                      <div className='text-xl leading-9 font-medium text-gray-900'>
-                                        <p>
-                                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita
-                                          voluptas culpa
-                                          sapiente alias
-                                          molestiae. Numquam corrupti in laborum sed rerum et corporis.
-                                        </p>
-                                        <div className={'flex'}>
-                                          {[0, 1, 2, 3, 4].map((rating) => (
-                                            <StarIcon
-                                              key={rating}
-                                              className={classNames(
-                                                4 > rating ? 'text-yellow-400' : 'text-gray-200',
-                                                'h-5 w-5 flex-shrink-0',
-                                              )}
-                                              aria-hidden='true'
-                                            />
-                                          ))}
-                                        </div>
-                                      </div>
-                                      <footer className='mt-8'>
-                                        <div className='flex'>
-                                          <div className='flex-shrink-0 lg:hidden'>
-                                            <img
-                                              className='h-12 w-12 rounded-full'
-                                              src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                                              alt=''
-                                            />
+                                  <div className='relative lg:flex lg:items-center'>
+                                    <div className='hidden lg:block lg:flex-shrink-0'>
+                                      <img
+                                        className='h-64 w-64 rounded-full xl:h-28 xl:w-28'
+                                        src='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
+                                        alt=''
+                                      />
+                                    </div>
+                                    <div className='relative lg:ml-10'>
+                                      <blockquote className='relative'>
+                                        <div className='text-xl leading-9 font-medium text-gray-900'>
+                                          <p>
+                                            {review.description}
+                                          </p>
+                                          <div className={'flex'}>
+                                            {[0, 1, 2, 3, 4].map((rating) => (
+                                              <StarIcon
+                                                key={rating}
+                                                className={classNames(
+                                                  review.score > rating ? 'text-yellow-400' : 'text-gray-200',
+                                                  'h-5 w-5 flex-shrink-0',
+                                                )}
+                                                aria-hidden='true'
+                                              />
+                                            ))}
                                           </div>
-                                          <div className='ml-4 lg:ml-0'>
-                                            <div className='text-base font-medium text-gray-900'>Judith Black</div>
-                                            <div className='text-base font-medium text-indigo-600'>227 Nguyen Van Cu
+                                        </div>
+                                        <footer className='mt-8'>
+                                          <div className='flex'>
+                                            <div className='flex-shrink-0 lg:hidden'>
+                                              <img
+                                                className='h-12 w-12 rounded-full'
+                                                src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                                alt=''
+                                              />
+                                            </div>
+                                            <div className='ml-4 lg:ml-0'>
+                                              <div className='text-base font-medium text-gray-900'>Judith Black</div>
+                                              <div className='text-base font-medium text-indigo-600'>227 Nguyen Van Cu
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </footer>
-                                    </blockquote>
+                                        </footer>
+                                      </blockquote>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </section>
-                            <section className='bg-white overflow-hidden'>
-                              <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>
-                                <svg
-                                  className='absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden'
-                                  width={784}
-                                  height={404}
-                                  fill='none'
-                                  viewBox='0 0 784 404'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={784} height={404} fill='url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)' />
-                                </svg>
-
-                                <svg
-                                  className='hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2'
-                                  width={404}
-                                  height={784}
-                                  fill='none'
-                                  viewBox='0 0 404 784'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='56409614-3d62-4985-9a10-7ca758a8f4f0'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={404} height={784} fill='url(#56409614-3d62-4985-9a10-7ca758a8f4f0)' />
-                                </svg>
-
-                                <div className='relative lg:flex lg:items-center'>
-                                  <div className='hidden lg:block lg:flex-shrink-0'>
-                                    <img
-                                      className='h-64 w-64 rounded-full xl:h-28 xl:w-28'
-                                      src='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-                                      alt=''
-                                    />
-                                  </div>
-                                  <div className='relative lg:ml-10'>
-                                    <blockquote className='relative'>
-                                      <div className='text-xl leading-9 font-medium text-gray-900'>
-                                        <p>
-                                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita
-                                          voluptas culpa
-                                          sapiente alias
-                                          molestiae. Numquam corrupti in laborum sed rerum et corporis.
-                                        </p>
-                                        <div className={'flex'}>
-                                          {[0, 1, 2, 3, 4].map((rating) => (
-                                            <StarIcon
-                                              key={rating}
-                                              className={classNames(
-                                                4 > rating ? 'text-yellow-400' : 'text-gray-200',
-                                                'h-5 w-5 flex-shrink-0',
-                                              )}
-                                              aria-hidden='true'
-                                            />
-                                          ))}
-                                        </div>
-                                      </div>
-                                      <footer className='mt-8'>
-                                        <div className='flex'>
-                                          <div className='flex-shrink-0 lg:hidden'>
-                                            <img
-                                              className='h-12 w-12 rounded-full'
-                                              src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                                              alt=''
-                                            />
-                                          </div>
-                                          <div className='ml-4 lg:ml-0'>
-                                            <div className='text-base font-medium text-gray-900'>Judith Black</div>
-                                            <div className='text-base font-medium text-indigo-600'>227 Nguyen Van Cu
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </footer>
-                                    </blockquote>
-                                  </div>
-                                </div>
-                              </div>
-                            </section>
-                            <section className='bg-white overflow-hidden'>
-                              <div className='relative max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8'>
-                                <svg
-                                  className='absolute top-full left-0 transform translate-x-80 -translate-y-24 lg:hidden'
-                                  width={784}
-                                  height={404}
-                                  fill='none'
-                                  viewBox='0 0 784 404'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={784} height={404} fill='url(#e56e3f81-d9c1-4b83-a3ba-0d0ac8c32f32)' />
-                                </svg>
-
-                                <svg
-                                  className='hidden lg:block absolute right-full top-1/2 transform translate-x-1/2 -translate-y-1/2'
-                                  width={404}
-                                  height={784}
-                                  fill='none'
-                                  viewBox='0 0 404 784'
-                                  aria-hidden='true'
-                                >
-                                  <defs>
-                                    <pattern
-                                      id='56409614-3d62-4985-9a10-7ca758a8f4f0'
-                                      x={0}
-                                      y={0}
-                                      width={20}
-                                      height={20}
-                                      patternUnits='userSpaceOnUse'
-                                    >
-                                      <rect x={0} y={0} width={4} height={4} className='text-gray-200'
-                                            fill='currentColor' />
-                                    </pattern>
-                                  </defs>
-                                  <rect width={404} height={784} fill='url(#56409614-3d62-4985-9a10-7ca758a8f4f0)' />
-                                </svg>
-
-                                <div className='relative lg:flex lg:items-center'>
-                                  <div className='hidden lg:block lg:flex-shrink-0'>
-                                    <img
-                                      className='h-64 w-64 rounded-full xl:h-28 xl:w-28'
-                                      src='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-                                      alt=''
-                                    />
-                                  </div>
-                                  <div className='relative lg:ml-10'>
-                                    <blockquote className='relative'>
-                                      <div className='text-xl leading-9 font-medium text-gray-900'>
-                                        <p>
-                                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita
-                                          voluptas culpa
-                                          sapiente alias
-                                          molestiae. Numquam corrupti in laborum sed rerum et corporis.
-                                        </p>
-                                        <div className={'flex'}>
-                                          {[0, 1, 2, 3, 4].map((rating) => (
-                                            <StarIcon
-                                              key={rating}
-                                              className={classNames(
-                                                4 > rating ? 'text-yellow-400' : 'text-gray-200',
-                                                'h-5 w-5 flex-shrink-0',
-                                              )}
-                                              aria-hidden='true'
-                                            />
-                                          ))}
-                                        </div>
-                                      </div>
-                                      <footer className='mt-8'>
-                                        <div className='flex'>
-                                          <div className='flex-shrink-0 lg:hidden'>
-                                            <img
-                                              className='h-12 w-12 rounded-full'
-                                              src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                                              alt=''
-                                            />
-                                          </div>
-                                          <div className='ml-4 lg:ml-0'>
-                                            <div className='text-base font-medium text-gray-900'>Judith Black</div>
-                                            <div className='text-base font-medium text-indigo-600'>227 Nguyen Van Cu
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </footer>
-                                    </blockquote>
-                                  </div>
-                                </div>
-                              </div>
-                            </section>
+                              </section>
+                            )}
                           </div>
                         </TabPane>
                         <TabPane tab='Blog' key='3'>

@@ -36,16 +36,22 @@ class StoreService extends BaseRoute {
     })
   }
 
-  async follow (store_id, user_id) {
+  async followStore (store_id, user_id) {
     console.log('token before sending', `Token ${getToken()}`)
     return await this.post('followstore', {
-        store_id, user_id
+        store_id, user_id,
       },
       {
         headers: {
           'Authorization': `Token ${getToken()}`,
         },
       })
+  }
+
+  async getBlogs (store_id) {
+    return await this.get('getblogs', {
+      store_id,
+    })
   }
 
   async review (user_id, store_id, score, description) {
