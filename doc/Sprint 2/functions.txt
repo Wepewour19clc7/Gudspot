@@ -1,0 +1,27 @@
+1.Find spot
+2.Recommend spot
+3.Sign up
+4.Sign in
+5.Log out
+6.Change self-information
+7.Change password
+8.Change avatar
+9.Like page
+10.Follow page
+11.Comment on post
+12.Create favorite list
+13.Create checklist
+14.Write blogs
+15.Post Image
+16.Ban user
+17.Censor post
+18.Delete post
+19.Export Google map link for spot
+
+4,4,4,3,3
+
+1) 1,3,6,17
+2) 2,4,7,12
+3) 5,13,16,18,19
+4) 8,10,15
+5) 9,11,14
