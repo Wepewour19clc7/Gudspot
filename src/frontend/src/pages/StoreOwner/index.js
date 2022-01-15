@@ -79,7 +79,7 @@ export default function StoreOwner () {
       if (res.data.mesg == 'Already Followed') {
         console.log('followed')
         setIsFollow(true)
-      }else {
+      } else {
         setIsFollow(false)
       }
     })
@@ -338,7 +338,7 @@ export default function StoreOwner () {
                                     <div className='hidden lg:block lg:flex-shrink-0'>
                                       <img
                                         className='h-64 w-64 rounded-full xl:h-28 xl:w-28'
-                                        src='https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
+                                        src={review.user_info ? review.user_info.avatar : 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}
                                         alt=''
                                       />
                                     </div>
@@ -371,8 +371,9 @@ export default function StoreOwner () {
                                               />
                                             </div>
                                             <div className='ml-4 lg:ml-0'>
-                                              <div className='text-base font-medium text-gray-900'>Judith Black</div>
-                                              <div className='text-base font-medium text-indigo-600'>227 Nguyen Van Cu
+                                              <div
+                                                className='text-base font-medium text-gray-900'>{review.user_info ? review.user_info.name : 'Not available name'}</div>
+                                              <div className='text-base font-medium text-indigo-600'>{review.user_info ? review.user_info.address : 'Not available address'}
                                               </div>
                                             </div>
                                           </div>
@@ -381,7 +382,7 @@ export default function StoreOwner () {
                                     </div>
                                   </div>
                                 </div>
-                              </section>
+                              </section>,
                             )}
                           </div>
                         </TabPane>
