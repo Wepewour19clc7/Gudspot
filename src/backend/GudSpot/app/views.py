@@ -1,3 +1,4 @@
+from audioop import avg
 from re import search
 from django.db import reset_queries
 from rest_framework import generics, permissions, serializers, status
@@ -121,7 +122,13 @@ class CreateStoreView(generics.GenericAPIView):
 
 class GetBlog(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        data = Blog.objects.filter(store_id_id=request.data['store_id'])
+        store_id = request.GET.get('store_id',None)
+        if store_id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        store_obj = Store.objects.filter(id=store_id)
+        if len(store_obj) == 0:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = Blog.objects.filter(store_id_id=store_id)
         if data != None:
             response = dict()
             response['data'] = data.values()
@@ -163,7 +170,7 @@ class StorePageView(generics.GenericAPIView):
 
 class UserInformationView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        id = request.GET.get('user_id')
+        id = request.GET.get('user_id',None)
         if id == None:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         data = user_information.objects.get(user_id=id)
@@ -269,31 +276,44 @@ class CreateReviewView(generics.GenericAPIView):
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetReviewView(generics.GenericAPIView):
-    serializer_class = GetReviewSerializer
-    model = Review
     def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            data = Review.objects.filter(store_id=serializer.data['store_id'])
-            t = data.values_list('score', flat = True)
-            avg_review = sum(t)/len(t)
-            response = dict()
-            response['data'] = data.values()
-            response['status'] = 'success'
-            response['code'] = status.HTTP_200_OK
-            response['avg_scores'] = avg_review
-            response['total'] = len(t)
-            return Response(response,status=status.HTTP_200_OK)
-        else:
+        store_id = request.GET.get('store_id',None)
+        if store_id == None:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        store_obj = Store.objects.filter(id=store_id)
+        if len(store_obj) == 0:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = Review.objects.filter(store_id=store_id)
+        t = data.values_list('score', flat = True)
+        if len(t) == 0:
+            avg_review = 0
+        else:
+            avg_review = sum(t)/len(t)
+        response = dict()
+        response['data'] = data.values()
+        response['status'] = 'success'
+        response['code'] = status.HTTP_200_OK
+        response['avg_scores'] = avg_review
+        response['total'] = len(t)
+        return Response(response,status=status.HTTP_200_OK)
+        # else:
 
 class GetUserFollows(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        data = Review.objects.filter(user_id=request.data['user_id'])
+        user_id = request.GET.get('user_id',None)
+        if user_id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        user_obj = user_information.objects.filter(user_id=user_id)
+        if len(user_obj) == 0:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        data = Follow.objects.filter(user_id=user_id)
+        response = dict()
         if data != None:
-            response = dict()
             response['data'] = data.values()
+        else:
+            response['data'] = []
+        return Response(response,status=status.HTTP_200_OK)
 
 class GetTopFollowStore(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
@@ -388,7 +408,7 @@ class GetAllBlogsActivatedView(generics.GenericAPIView):
 
 class GetStoreOnwnerView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        id = request.GET.get('owner_id')
+        id = request.GET.get('owner_id',None)
         if id == None:
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         data = Store.objects.filter(owner_id=id)
@@ -403,8 +423,10 @@ class GetStoreOnwnerView(generics.GenericAPIView):
 
 class ReviewedOrNotView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        store_id = request.GET.get('store_id')
-        user_id = request.GET.get('user_id')
+        store_id = request.GET.get('store_id',None)
+        user_id = request.GET.get('user_id',None)
+        if user_id == None or store_id == None:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         data = Review.objects.filter(store_id=store_id, user_id=user_id)
         response = dict()
         if len(data) != 0:
