@@ -215,7 +215,7 @@ export default function StoreOwner () {
 
                           {!isReview ? <div className='flex justify-center shadow-lg my-4 '>
                             <Formik
-                              initialValues={{ score: '', description: '' }}
+                              initialValues={{ score: 5, description: '' }}
                               onSubmit={async (values, { setSubmitting }) => {
                                 console.log('submit reviews', values)
                                 await sendForm(values)

@@ -11,6 +11,7 @@ import { ProfileModel } from '../../pages/Profile/Profile.model'
 const userNavigation = [
   { name: 'Your Profile', href: '/profile' },
   { name: 'Settings', href: '#' },
+  { name: 'Manage blogs', href: '/manage_blog' },
 ]
 
 const HeaderApp = ({ isLogged }) => {

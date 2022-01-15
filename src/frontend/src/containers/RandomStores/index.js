@@ -3,7 +3,6 @@ import { StarIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
-import { StoreOwnerModel } from '../../pages/StoreOwner/StoreOwner.model'
 import { RandomStoresModel } from './RandomStores.model'
 
 const RandomStores = () => {
@@ -49,14 +48,14 @@ const RandomStores = () => {
                         <StarIcon
                           key={rating}
                           className={clsx(
-                            4 > rating ? 'text-yellow-400' : 'text-gray-200',
+                            store.avg_review > rating ? 'text-yellow-400' : 'text-gray-200',
                             'flex-shrink-0 h-5 w-5',
                           )}
                           aria-hidden='true'
                         />
                       ))}
                     </div>
-                    <p className='mt-1 text-sm text-gray-500'>{store.reviewCount} reviews</p>
+                    <p className='mt-1 text-sm text-gray-500'>{store.review_count ? store.review_count : 0} reviews</p>
                   </div>
                 </div>
               </div>

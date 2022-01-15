@@ -37,6 +37,12 @@ class UserService extends BaseRoute {
       },
     })
   }
+
+  async getStoreFollow (user_id) {
+    return await this.get('get-user-follow-list', {
+      user_id,
+    })
+  }
 }
 
 export default UserService

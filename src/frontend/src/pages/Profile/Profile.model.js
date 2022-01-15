@@ -14,4 +14,8 @@ export class ProfileModel {
 
     return await this.userService.changeInfo(user_id, name, address, description, avatar)
   }
+
+  async getStoreFollow (user_id) {
+    return await this.userService.getStoreFollow(user_id)
+  }
 }
