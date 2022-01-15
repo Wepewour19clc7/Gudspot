@@ -18,8 +18,9 @@ from django.shortcuts import render
 from .serializers import *
 from .models import *
 from django.forms.models import model_to_dict
-from django.db.models import Count
-
+from django.db.models import Count,Q 
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -140,15 +141,30 @@ class GetBlog(generics.GenericAPIView):
 
 
 #Search store 
-class StoreList(generics.ListCreateAPIView):
-    queryset = Store.objects.all()
-    serializer_class = StoreSerializer
-    name = 'store-list'
-    pagination_class = PageNumberPagination
-    search_fields = (
-        '^store_name',
-        '^store_address',
-    )
+class SearchStore(generics.ListCreateAPIView):
+    def get(self, request, *args, **kwargs):
+        keyword = request.GET['keyword']
+        store_queryset = Store.objects.filter(
+            Q(store_name__icontains = keyword)| Q(store_address__icontains = keyword)
+            )
+
+        if store_queryset !=None:    
+            store_data = []
+            response = dict()
+            for store in store_queryset:
+                store_dict = model_to_dict(store)
+                review_count = Review.objects.filter(store_id_id = store).count()
+                store_dict['review_count'] = review_count
+                store_data.append(store_dict)
+            
+            response['results'] = store_data         
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)        
+
 
 class StorePageView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
@@ -361,10 +377,31 @@ class GetTopFollowStore(generics.GenericAPIView):
             return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
         
 class StoreDashboard(generics.ListCreateAPIView):
-    queryset = Store.objects.all().order_by('-create_date')
-    serializer_class = StoreSerializer
-    name = 'store-dashboard'
-    pagination_class = PageNumberPagination
+    def get(self, request, *args, **kwargs):
+        #Config
+        # serializer_class = StoreSerializer
+        # name = 'store-dashboard'
+        # pagination_class = PageNumberPagination
+        #Get query set for stores
+        store_queryset = Store.objects.all().order_by('-create_date')
+        if store_queryset !=None:
+            
+            store_data = []
+            response = dict()
+            for store in store_queryset:
+                store_dict = model_to_dict(store)
+                review_count = Review.objects.filter(store_id_id = store).count()
+                store_dict['review_count'] = review_count
+                store_data.append(store_dict)
+            
+            response['results'] = store_data         
+            response['status'] = 'success'
+            response['code'] = status.HTTP_200_OK
+            
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Bad request"}, status=status.HTTP_400_BAD_REQUEST)
+        
     
 class DeleteBlogView(generics.GenericAPIView):
     model = Blog
@@ -434,4 +471,17 @@ class ReviewedOrNotView(generics.GenericAPIView):
             return Response(response,status=status.HTTP_200_OK)
         else:
             response['mesg'] = 'Did not review'
+            return Response(response,status=status.HTTP_200_OK)
+
+class FollowedOrNotView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        store_id = request.GET.get('store_id')
+        user_id = request.GET.get('user_id')
+        data = Review.objects.filter(store_id=store_id, user_id=user_id)
+        response = dict()
+        if len(data) != 0:
+            response['mesg'] = 'Already Followed'
+            return Response(response,status=status.HTTP_200_OK)
+        else:
+            response['mesg'] = 'Did not Follow'
             return Response(response,status=status.HTTP_200_OK)
