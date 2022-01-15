@@ -12,7 +12,7 @@ urlpatterns = [
     path('api/create-store', CreateStoreView.as_view(),name='createstore'),
     path('api/writeblogs', WriteBlog.as_view(),name='writeblogs'),
     path('api/getblogs',GetBlog.as_view(),name='getblogs'),
-    path('api/storelist',StoreList.as_view(),name='store-list'),
+    path('api/search-store',SearchStore.as_view(),name='search-store'),
     path('api/storepage',StorePageView.as_view(),name='storepages'),
     path('api/createcomment',CreateComment.as_view(),name='createcomment'),
     path('api/followstore',FollowStore.as_view(),name='followstore'),
@@ -28,5 +28,7 @@ urlpatterns = [
     path('api/get-all-blogs',GetAllBlogsActivatedView.as_view(),name='get-all-blogs'),
     path('api/get-stores-owner',GetStoreOnwnerView.as_view(),name='get-store-owner'),
     path('api/check-review',ReviewedOrNotView.as_view(),name='check-review'),
+    path('api/check-follow',FollowedOrNotView.as_view(),name='check-follow'),
+    
 
 ]

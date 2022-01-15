@@ -153,28 +153,54 @@
 
 Return list of store if keyword is in store name or store address
 
-- Update: add pagination
 
-* API link: `<hostname>/api/storelist?search=<keyword>&page=<page_number>`
+* API link: `<hostname>/api/search-store
 * Method: `GET`
+* Requets: keyword = <CharField>
 * Response: Example:
 
 ```
 {
-    "count": 3,
-    "next": "http://127.0.0.1:8000/api/storelist?page=2&search=test",
-    "previous": null,
     "results": [
         {
+            "id": 1,
             "owner_id": 1,
-            "store_name": "Test1",
-            "store_address": "327NVC4",
-            "img_url": {
-                "1": "sfdfsd"
+            "store_name": "Store1",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
             },
-            "description": "Fck this sh!t"
+            "review_count": 3
+        },
+        {
+            "id": 2,
+            "owner_id": 1,
+            "store_name": "Store2",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
+            },
+            "review_count": 0
+        },
+        {
+            "id": 3,
+            "owner_id": 1,
+            "store_name": "Store3",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
+            },
+            "review_count": 0
         }
-    ]
+    ],
+    "status": "success",
+    "code": 200
 }
 ```
 
@@ -182,25 +208,54 @@ Return list of store if keyword is in store name or store address
 
 - API link: `<hostname>/api/storedashboard
 - Method: `GET`
+
 - Response: Example:
 
 ```
 {
-    "count": 3,
-    "next": "http://127.0.0.1:8000/api/storedashboard?page=2",
-    "previous": null,
+    {
     "results": [
         {
+            "id": 3,
             "owner_id": 1,
-            "store_name": "Test3",
-            "store_address": "327NVC4",
-            "img_url": {
-                "1": "sfdfsd"
+            "store_name": "Store3",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
             },
-            "description": "Fck this sh!t"
+            "review_count": 0
+        },
+        {
+            "id": 2,
+            "owner_id": 1,
+            "store_name": "Store2",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
+            },
+            "review_count": 0
+        },
+        {
+            "id": 1,
+            "owner_id": 1,
+            "store_name": "Store1",
+            "description": "adfhsghba",
+            "store_address": "dfabadfb",
+            "avatar": "https://github.com/Wepewour19clc7/Gudspot/tree/add-fields-store",
+            "cover_img": {
+                "1": "123"
+            },
+            "review_count": 3
         }
-    ]
+    ],
+    "status": "success",
+    "code": 200
 }
+
 ```
 
 ## Get store page
