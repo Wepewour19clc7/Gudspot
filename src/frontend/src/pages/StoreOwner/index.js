@@ -131,7 +131,7 @@ export default function StoreOwner () {
                             <StarIcon
                               key={rating}
                               className={clsx(
-                                4 > rating ? 'text-yellow-400' : 'text-gray-200',
+                                Math.ceil(store.avg_scores) > rating ? 'text-yellow-400' : 'text-gray-200',
                                 'flex-shrink-0 h-5 w-5',
                               )}
                               aria-hidden='true'

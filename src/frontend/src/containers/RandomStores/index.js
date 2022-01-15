@@ -91,14 +91,14 @@ const RandomStores = () => {
                         <StarIcon
                           key={rating}
                           className={clsx(
-                            store[0].rating > rating ? 'text-yellow-400' : 'text-gray-200',
+                            store[0].avg_scores > rating ? 'text-yellow-400' : 'text-gray-200',
                             'flex-shrink-0 h-5 w-5',
                           )}
                           aria-hidden='true'
                         />
                       ))}
                     </div>
-                    <p className='mt-1 text-sm text-gray-500'>{store[0].reviewCount} reviews</p>
+                    <p className='mt-1 text-sm text-gray-500'>{store[0].total_followers} follower</p>
                   </div>
                 </div>
               </div>

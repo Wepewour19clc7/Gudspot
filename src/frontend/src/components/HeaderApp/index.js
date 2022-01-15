@@ -16,16 +16,18 @@ const userNavigation = [
 
 const HeaderApp = ({ isLogged }) => {
   const [isLoggedState, setIsLoggedState] = React.useState(isLogged)
-  const userId = getFullToken().id
+  const userId = getFullToken() ? getFullToken().id : 0
   const profileModel = new ProfileModel()
   const [profile, setProfile] = useState({})
 
   const history = useHistory()
   useEffect(() => {
-    profileModel.getUser(userId ).then((res) => {
-      console.log('res data profile', res.data)
-      setProfile(res.data)
-    })
+    if(userId){
+      profileModel.getUser(userId ).then((res) => {
+        console.log('res data profile', res.data)
+        setProfile(res.data)
+      })
+    }
   }, [])
   return (
     <div className='relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex'>
